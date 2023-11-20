@@ -22,10 +22,15 @@ public class MainMenu extends EntityFrame {
 
     private JLabel title = new JLabel("Система управления школой");
 
-    private TeacherGUI teacherGUI = new TeacherGUI();
+    private TeacherGUI teacherGUI;
+
+    private StudentGUI studentGUI;
 
     public MainMenu() {
       super("Главное меню");
+      teacherGUI = new TeacherGUI();
+      studentGUI = new StudentGUI();
+
       this.addWindowListener((WindowListener) new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
@@ -106,6 +111,7 @@ public class MainMenu extends EntityFrame {
        * @param e the event to be processed
        */
       public void actionPerformed(ActionEvent e) {
+        studentGUI.toggleVisible();
       }
   }
 
