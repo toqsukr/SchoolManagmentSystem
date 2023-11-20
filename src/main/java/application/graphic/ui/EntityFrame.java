@@ -50,9 +50,9 @@ public class EntityFrame extends MyFrame {
      */
     private ToolButton reportBtn;
 
-    private JTextField searchNameField = new JTextField();
+    private JTextField searchNameField;
 
-    private JComboBox<String> searchTeam = new JComboBox<>();
+    private JComboBox<String> comboSearchKlass = new JComboBox<>();
 
     private final ToolBar toolBar = new ToolBar();
 
@@ -69,23 +69,18 @@ public class EntityFrame extends MyFrame {
     /**
      * The table model storing displaying data
      */
-    private DefaultTableModel racerTable = new DefaultTableModel(data, columns);
+    private DefaultTableModel defaultTable;
 
 
     /**
      * Create the table
      */
-    private final JTable racers = new JTable(racerTable) {
-        @Override
-        public boolean isCellEditable(int i, int j) {
-            return j != 0 && getEditingPermit();
-        }
-    };
+    private final JTable table;
 
     /**
      * Creation of the scroll panel
      */
-    private final JScrollPane scroll = new JScrollPane(racers);
+    private final JScrollPane scroll;
 
     /**
      * This panel store 2 inputs and search button
@@ -105,8 +100,19 @@ public class EntityFrame extends MyFrame {
     super(frameName);
     this.setBounds(200, 150, 800, 600);
     this.setResizable(false);
+    columns = _columns; 
+    defaultTable = new DefaultTableModel(data, columns);
 
-    racers.getTableHeader().setReorderingAllowed(false);
+    table = new JTable(defaultTable) {
+        @Override
+        public boolean isCellEditable(int i, int j) {
+            return j != 0 && getEditingPermit();
+        }
+    };
+
+    scroll = new JScrollPane(table);
+
+    table.getTableHeader().setReorderingAllowed(false);
 
     Container container = this.getContentPane();
     container.setLayout(new BorderLayout());
@@ -115,9 +121,8 @@ public class EntityFrame extends MyFrame {
     clearInputBtn.setBackground(new Color(0xDFD9D9D9, false));
     disruptInputBtn.setBackground(new Color(0xDFD9D9D9, false));
 
-    columns = _columns;
 
-    searchNameField.setName(searchName);
+    searchNameField = new JTextField(searchName, 20);
 
     searchNameField.setMargin(new Insets(2, 2, 3, 0));
 
@@ -128,7 +133,7 @@ public class EntityFrame extends MyFrame {
     clearInputBtn.setMargin(new Insets(1, 6, 1, 6));
 
     filterPanel.add(searchNameField);
-    filterPanel.add(searchTeam);
+    filterPanel.add(comboSearchKlass);
     filterPanel.add(searchBtn);
     filterPanel.add(clearInputBtn);
     filterPanel.add(disruptInputBtn);
