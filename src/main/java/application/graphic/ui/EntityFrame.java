@@ -7,7 +7,6 @@ import java.awt.Container;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -15,7 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 
-public class EntityFrame extends JFrame {
+public class EntityFrame extends MyFrame {
     /**
      * This button performs a search
      */
@@ -51,21 +50,16 @@ public class EntityFrame extends JFrame {
      */
     private ToolButton reportBtn;
 
-
-    private JComboBox<String> comboTeam = new JComboBox<>();
-
-    private static final JTextField searchNameField = new JTextField("Имя учителя", 17);
+    private JTextField searchNameField = new JTextField();
 
     private JComboBox<String> searchTeam = new JComboBox<>();
-
-    private JComboBox<String> comboAge = new JComboBox<>();
 
     private final ToolBar toolBar = new ToolBar();
 
     /**
      * Table column names
      */
-    private final String[] columns = { "ID", "Имя", "Фамилия" };
+    private String[] columns;
 
     /**
      * Fields of the table
@@ -107,8 +101,8 @@ public class EntityFrame extends JFrame {
         return editingPermit;
     }
 
-  public EntityFrame(String name) {
-    super(name);
+  public EntityFrame(String frameName, String searchName, final String[] _columns) {
+    super(frameName);
     this.setBounds(200, 150, 800, 600);
     this.setResizable(false);
 
@@ -120,6 +114,10 @@ public class EntityFrame extends JFrame {
     searchBtn.setBackground(new Color(0xDFD9D9D9, false));
     clearInputBtn.setBackground(new Color(0xDFD9D9D9, false));
     disruptInputBtn.setBackground(new Color(0xDFD9D9D9, false));
+
+    columns = _columns;
+
+    searchNameField.setName(searchName);
 
     searchNameField.setMargin(new Insets(2, 2, 3, 0));
 
@@ -135,10 +133,10 @@ public class EntityFrame extends JFrame {
     filterPanel.add(clearInputBtn);
     filterPanel.add(disruptInputBtn);
 
-    addBtn = new ToolButton("Добавить");
-    deleteBtn = new ToolButton("Удалить");
-    editBtn = new ToolButton("Редактировать");
-    reportBtn = new ToolButton("Сделать отчет");
+    addBtn = new ToolButton("Добавить", "images/add.png");
+    deleteBtn = new ToolButton("Удалить", "images/remove.png");
+    editBtn = new ToolButton("Редактировать", "images/edit.png");
+    reportBtn = new ToolButton("Сделать отчет", "images/report.png");
 
     toolBar.addButton(addBtn);
     toolBar.addButton(deleteBtn);
@@ -150,7 +148,5 @@ public class EntityFrame extends JFrame {
     container.add(filterPanel, BorderLayout.SOUTH);
   }
 
-  public void toggleVisible() {
-    this.setVisible(!this.isVisible());
-  }
+
 }

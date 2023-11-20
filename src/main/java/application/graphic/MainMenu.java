@@ -11,9 +11,9 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-import application.graphic.ui.EntityFrame;
+import application.graphic.ui.MyFrame;
 
-public class MainMenu extends EntityFrame {
+public class MainMenu extends MyFrame {
     private final JButton teacherBtn = new JButton("      Учителя   ");
 
     private final JButton studentBtn = new JButton("      Ученики   ");
@@ -89,9 +89,7 @@ public class MainMenu extends EntityFrame {
         button.setMargin(new Insets(1, 2, 1, 10));
     }
 
-    public void setMainMenuEnable(boolean value) {
-        this.setEnabled(value);
-    }
+
 
     private class TeacherEventListener implements ActionListener {
 
