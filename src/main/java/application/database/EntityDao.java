@@ -17,12 +17,9 @@ public class EntityDao<T> {
 
     public List<T> getAll() throws HibernateException {
         try {
-            App.em.getTransaction().begin();
             List<T> list = App.em.createQuery("FROM " + entityClass.getSimpleName(), entityClass)
                                  .getResultList();
-            App.em.getTransaction().commit();
             return list;
-
         } catch (HibernateException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage());
             return null;
@@ -30,24 +27,18 @@ public class EntityDao<T> {
     }
 
     public T findObject(int id) {
-        App.em.getTransaction().begin();
         T object = App.em.find(entityClass, id);
-        App.em.getTransaction().commit();
         return object;
     }
 
     public T findObject(String id) {
-        App.em.getTransaction().begin();
         T object = App.em.find(entityClass, id);
-        App.em.getTransaction().commit();
         return object;
     }
 
     public void saveObject(T object) {
         try {
-            App.em.getTransaction().begin();
             App.em.persist(object);
-            App.em.getTransaction().commit();
         } catch (HibernateException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage());
         }
@@ -55,9 +46,7 @@ public class EntityDao<T> {
 
     public void updateObject(T object) {
         try {
-            App.em.getTransaction().begin();
             App.em.merge(object);
-            App.em.getTransaction().commit();
         } catch (HibernateException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage());
         }
@@ -65,7 +54,6 @@ public class EntityDao<T> {
 
     public void deleteObject(T object) {
         try {
-            App.em.getTransaction().begin();
             if (App.em.contains(object)) {
                 App.em.remove(object);
             } else {
@@ -75,7 +63,6 @@ public class EntityDao<T> {
                     App.em.remove(attachedObject);
                 }
             }
-            App.em.getTransaction().commit();
         } catch (HibernateException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage());
         }
@@ -83,9 +70,7 @@ public class EntityDao<T> {
 
     public void clearTable() {
         try {
-            App.em.getTransaction().begin();
             App.em.createQuery("DELETE FROM " + entityClass.getSimpleName()).executeUpdate();
-            App.em.getTransaction().commit();
         } catch (HibernateException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage());
         }
