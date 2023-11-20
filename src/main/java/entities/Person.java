@@ -9,6 +9,8 @@ public abstract class Person {
 
 	@Column(name = "surname")
 	private String surname;
+
+	public Person() {};
 		
 	public Person(String _name, String _surname) {
 		this.setName(_name);

@@ -8,6 +8,8 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "klass")
 public class Klass {
+
+	public Klass() {};
 	
 	public Klass(String _name) {
 		this.setKlassName(_name);
@@ -25,13 +27,16 @@ public class Klass {
 		this.name = _name;
 	}
 
+	@OneToMany(mappedBy = "klass")
+	private List<Student> students = new ArrayList<>();
+
 
 	@ManyToMany
-    @JoinTable(
-        name = "klass_has_teacher",
-        joinColumns = {@JoinColumn(name = "klassName")},
-        inverseJoinColumns = {@JoinColumn(name = "teacherID")}
-    )
+	@JoinTable(
+			name = "klass_has_teacher",
+			joinColumns = {@JoinColumn(name = "klassName")},
+			inverseJoinColumns = {@JoinColumn(name = "teacherID")}
+	)
 	
 	private List<Teacher> teachers = new ArrayList<>();
 

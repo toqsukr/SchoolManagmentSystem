@@ -6,17 +6,22 @@ import javax.swing.JOptionPane;
 
 import org.hibernate.HibernateException;
 
-import entities.Student;
 import application.App;
 
-public class StudentDao {
+public class EntityDao<T> {
+    private Class<T> entityClass;
 
-    public List<Student> getAllStudents() throws HibernateException {
+    public EntityDao(Class<T> entityClass) {
+        this.entityClass = entityClass;
+    }
+
+    public List<T> getAll() throws HibernateException {
         try {
             App.em.getTransaction().begin();
-            List<Student> students = App.em.createQuery("FROM Student", Student.class).getResultList();
+            List<T> list = App.em.createQuery("FROM " + entityClass.getSimpleName(), entityClass)
+                                 .getResultList();
             App.em.getTransaction().commit();
-            return students;
+            return list;
 
         } catch (HibernateException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage());
@@ -24,48 +29,62 @@ public class StudentDao {
         }
     }
 
-    public Student findstudent(int id) {
+    public T findObject(int id) {
         App.em.getTransaction().begin();
-        Student student = App.em.find(Student.class, id);
+        T object = App.em.find(entityClass, id);
         App.em.getTransaction().commit();
-        return student;
+        return object;
     }
 
-    public void saveStudent(Student student) {
+    public T findObject(String id) {
+        App.em.getTransaction().begin();
+        T object = App.em.find(entityClass, id);
+        App.em.getTransaction().commit();
+        return object;
+    }
+
+    public void saveObject(T object) {
         try {
             App.em.getTransaction().begin();
-            App.em.persist(student);
+            App.em.persist(object);
             App.em.getTransaction().commit();
         } catch (HibernateException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage());
         }
     }
 
-    public void updateStudent(Student student) {
+    public void updateObject(T object) {
         try {
             App.em.getTransaction().begin();
-            App.em.merge(student);
+            App.em.merge(object);
             App.em.getTransaction().commit();
         } catch (HibernateException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage());
         }
     }
 
-    public void deleteStudent(Student student) {
+    public void deleteObject(T object) {
         try {
             App.em.getTransaction().begin();
-            App.em.createQuery("DELETE FROM Student r WHERE studentID = :id", null).setParameter("id", student.getStudentID())
-                    .executeUpdate();
+            if (App.em.contains(object)) {
+                App.em.remove(object);
+            } else {
+                Object identifier = App.em.getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(object);
+                T attachedObject = App.em.find(entityClass, identifier);
+                if (attachedObject != null) {
+                    App.em.remove(attachedObject);
+                }
+            }
             App.em.getTransaction().commit();
         } catch (HibernateException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage());
         }
     }
 
-    public void clearStudents() {
+    public void clearTable() {
         try {
             App.em.getTransaction().begin();
-            App.em.createQuery("DELETE FROM Student").executeUpdate();
+            App.em.createQuery("DELETE FROM " + entityClass.getSimpleName()).executeUpdate();
             App.em.getTransaction().commit();
         } catch (HibernateException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage());

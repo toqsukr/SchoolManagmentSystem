@@ -8,6 +8,8 @@ import jakarta.persistence.*;
 @Table(name = "student")
 public class Student extends Person {	
 
+	public Student() {};
+
 	public Student(String _name, String _surname, Klass klass) {
 		super(_name, _surname);
 		setKlass(klass);
@@ -27,7 +29,7 @@ public class Student extends Person {
 	}
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "klassName", referencedColumnName = "klassName")
+	@JoinColumn(name = "klassName")
 
 	private Klass klass;
 
@@ -39,7 +41,7 @@ public class Student extends Person {
 		klass = _klass;
 	}
 	
-	@OneToMany(mappedBy = "progressID.student", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "progressID.student")
     private List<Progress> progress = new ArrayList<>();
 
 	public List<Progress> getProgress() {

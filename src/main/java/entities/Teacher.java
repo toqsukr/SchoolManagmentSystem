@@ -9,6 +9,8 @@ import jakarta.persistence.*;
 @Table(name = "teacher")
 public class Teacher extends Person {
 
+	public Teacher() {};
+
 	public Teacher(String _name, String _surname, Subject subject) {
 		super(_name, _surname);
 		appendSubject(subject);
