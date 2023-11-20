@@ -8,8 +8,9 @@ public class App
 {
 		public static EntityManagerFactory emf = Persistence.createEntityManagerFactory("ss_persistence");
 		public static EntityManager em = emf.createEntityManager();
-		public static MainMenu mainMenu = new MainMenu();
+		public static MainMenu mainMenu;
 		public static void main( String[] args ) {
-				mainMenu.showWindow();
+				mainMenu = new MainMenu();
+				mainMenu.toggleVisible();
 		}
 }

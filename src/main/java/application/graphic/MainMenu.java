@@ -1,14 +1,19 @@
 package application.graphic;
 
-import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
-public class MainMenu {
-    private static JFrame mainMenu = new JFrame("Главное меню");
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 
+import application.graphic.ui.EntityFrame;
+
+public class MainMenu extends EntityFrame {
     private final JButton teacherBtn = new JButton("      Учителя   ");
 
     private final JButton studentBtn = new JButton("      Ученики   ");
@@ -17,13 +22,19 @@ public class MainMenu {
 
     private JLabel title = new JLabel("Система управления школой");
 
-    public MainMenu() {
-      setupWindow();      
-    }
+    private TeacherGUI teacherGUI = new TeacherGUI();
 
-    private void setupWindow() {
-      mainMenu.setBounds(650, 200, 300, 220);
-      mainMenu.setResizable(false);
+    public MainMenu() {
+      super("Главное меню");
+      this.addWindowListener((WindowListener) new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+          System.exit(0);
+        }
+      });
+
+      this.setBounds(650, 200, 300, 220);
+      this.setResizable(false);
 
       initButton(teacherBtn);
       initButton(studentBtn);
@@ -42,7 +53,7 @@ public class MainMenu {
       Box teamBox = Box.createHorizontalBox();
       Box exitBox = Box.createHorizontalBox();
 
-      Container container = mainMenu.getContentPane();
+      Container container = this.getContentPane();
       container.setLayout(new BorderLayout());
 
       topBox.add(Box.createRigidArea(new Dimension(0, 40)));
@@ -64,11 +75,7 @@ public class MainMenu {
 
       container.add(leftBox, BorderLayout.WEST);
       container.add(centerBox, BorderLayout.CENTER);
-      container.add(rightBox, BorderLayout.EAST);
-    }
-
-    public void showWindow() {
-      mainMenu.setVisible(true);
+      container.add(rightBox, BorderLayout.EAST);   
     }
 
     private void initButton(JButton button) {
@@ -78,7 +85,7 @@ public class MainMenu {
     }
 
     public void setMainMenuEnable(boolean value) {
-        mainMenu.setEnabled(value);
+        this.setEnabled(value);
     }
 
     private class TeacherEventListener implements ActionListener {
@@ -88,6 +95,7 @@ public class MainMenu {
        * @param e the event to be processed
        */
       public void actionPerformed(ActionEvent e) {
+        teacherGUI.toggleVisible();
       }
   }
 
@@ -108,7 +116,7 @@ public class MainMenu {
        * @param e the event to be processed
        */
       public void actionPerformed(ActionEvent e) {
-          System.exit(1);
+          System.exit(0);
       }
   }
 }
