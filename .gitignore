@@ -1,2 +1,6 @@
 /.vscode
 /target/generated-test-sources
+*.mwb
+*.bak
+/target
+*/test
