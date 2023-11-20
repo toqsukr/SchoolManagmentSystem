@@ -1,5 +1,8 @@
 package entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -8,7 +11,7 @@ public class Teacher extends Person {
 
 	public Teacher(String _name, String _surname, Subject subject) {
 		super(_name, _surname);
-		setSubject(subject);
+		appendSubject(subject);
 	}
 
 	@Id 
@@ -24,17 +27,21 @@ public class Teacher extends Person {
 		teacherID = id;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "subjectName", referencedColumnName = "subjectName")
+	@ManyToMany
+    @JoinTable(
+        name = "subject_has_teacher",
+        joinColumns = {@JoinColumn(name = "teacherID")},
+        inverseJoinColumns = {@JoinColumn(name = "subjectName")}
+    )
+	
+	private List<Subject> subjects = new ArrayList<>();
 
-	private Subject subject;
-
-	public Subject getSubject() {
-		return subject;
+	public List<Subject> getSubjects() {
+		return subjects;
 	}
 
-	public void setSubject(Subject _subject) {
-		subject = _subject;
+	public void appendSubject(Subject subject) {
+		subjects.add(subject);
 	}
 		
 }
