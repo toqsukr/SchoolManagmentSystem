@@ -13,6 +13,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import application.graphic.AddGUI;
+
 
 public class EntityFrame extends MyFrame {
     /**
@@ -96,6 +98,8 @@ public class EntityFrame extends MyFrame {
         return editingPermit;
     }
 
+    private AddGUI addObject = new AddGUI("Добавление");
+
   public EntityFrame(String frameName, String searchName, final String[] _columns) {
     super(frameName);
     this.setBounds(200, 150, 800, 600);
@@ -138,7 +142,7 @@ public class EntityFrame extends MyFrame {
     filterPanel.add(clearInputBtn);
     filterPanel.add(disruptInputBtn);
 
-    addBtn = new ToolButton("Добавить", "images/add.png");
+    addBtn = new AddButton(addObject);
     deleteBtn = new ToolButton("Удалить", "images/remove.png");
     editBtn = new ToolButton("Редактировать", "images/edit.png");
     reportBtn = new ToolButton("Сделать отчет", "images/report.png");
@@ -152,6 +156,4 @@ public class EntityFrame extends MyFrame {
     container.add(scroll, BorderLayout.CENTER);
     container.add(filterPanel, BorderLayout.SOUTH);
   }
-
-
 }
