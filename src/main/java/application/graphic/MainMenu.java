@@ -28,8 +28,8 @@ public class MainMenu extends MyFrame {
 
     public MainMenu() {
       super("Главное меню");
-      teacherGUI = new TeacherGUI();
-      studentGUI = new StudentGUI();
+      teacherGUI = new TeacherGUI(this);
+      studentGUI = new StudentGUI(this);
 
       this.addWindowListener((WindowListener) new WindowAdapter() {
         @Override

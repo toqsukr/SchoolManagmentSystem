@@ -2,6 +2,9 @@ package application.graphic;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -15,6 +18,7 @@ import application.entities.Subject;
 import application.entities.Teacher;
 import application.graphic.ui.AddEntity;
 import application.graphic.ui.CheckBoxList;
+import application.graphic.ui.EntityFrame;
 import application.interfaces.IAddObject;
 import application.utils.ListHelper;
 
@@ -40,8 +44,16 @@ public class AddTeacherGUI extends AddGUI implements IAddObject<Teacher> {
 
   private final JLabel klassLabel = new JLabel("Класс:");
     
-  public AddTeacherGUI() {
-    super();
+  public AddTeacherGUI(EntityFrame<AddTeacherGUI> parent) {
+    super(parent);
+
+    this.addWindowListener((WindowListener) new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent e) {
+        parent.setTable();
+        dispose();
+      }
+    });
 
     List<Subject> subjects = Subject.getEntityDao().getAll();
     subjectCheckBox = new CheckBoxList<>(subjects);

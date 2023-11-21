@@ -28,9 +28,9 @@ public class Teacher extends Person implements IEntityDao<Teacher> {
 	@Id 
 	@Column(name = "teacherID") 
 	@GeneratedValue(strategy =  GenerationType.IDENTITY)
-	private int teacherID;
+	private Integer teacherID;
 
-	public int getTeacherID() {
+	public Integer getTeacherID() {
 		return teacherID;
 	}
 

@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import application.graphic.AddGUI;
 
 
-public class EntityFrame<T extends AddGUI> extends MyFrame {
+public abstract class EntityFrame<T extends AddGUI> extends ChildFrame {
   /**
    * This button performs a search
    */
@@ -71,8 +71,8 @@ public class EntityFrame<T extends AddGUI> extends MyFrame {
 
   /**
    * The table model storing displaying data
-   */
-  private DefaultTableModel defaultTable;
+   */  
+  protected DefaultTableModel defaultTable;
 
 
   /**
@@ -103,8 +103,10 @@ public class EntityFrame<T extends AddGUI> extends MyFrame {
 
   private T addObject;
 
-  public EntityFrame(String frameName, String searchName, final String[] _columns, Class<T> _entityClass) {
-    super(frameName);
+  public abstract void setTable();
+
+  public EntityFrame(String frameName, String searchName, final String[] _columns, Class<T> _entityClass, MyFrame parent) {
+    super(frameName, parent);
     this.setBounds(200, 150, 800, 600);
     this.setResizable(false);
     entityClass = _entityClass;
@@ -112,7 +114,7 @@ public class EntityFrame<T extends AddGUI> extends MyFrame {
     defaultTable = new DefaultTableModel(data, columns);
 
     try {
-        addObject = entityClass.getDeclaredConstructor().newInstance();
+        addObject = entityClass.getDeclaredConstructor(EntityFrame.class).newInstance(this);
     } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
         e.printStackTrace();
     }
