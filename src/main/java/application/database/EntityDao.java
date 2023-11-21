@@ -6,10 +6,16 @@ import javax.swing.JOptionPane;
 
 import org.hibernate.HibernateException;
 
-import application.App;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 public class EntityDao<T> {
     private Class<T> entityClass;
+    
+    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("ss_persistence");
+
+    private static EntityManager em = emf.createEntityManager();
 
     public EntityDao(Class<T> entityClass) {
         this.entityClass = entityClass;
@@ -17,7 +23,7 @@ public class EntityDao<T> {
 
     public List<T> getAll() throws HibernateException {
         try {
-            List<T> list = App.em.createQuery("FROM " + entityClass.getSimpleName(), entityClass)
+            List<T> list = em.createQuery("FROM " + entityClass.getSimpleName(), entityClass)
                                  .getResultList();
             return list;
         } catch (HibernateException exception) {
@@ -27,18 +33,18 @@ public class EntityDao<T> {
     }
 
     public T findObject(int id) {
-        T object = App.em.find(entityClass, id);
+        T object = em.find(entityClass, id);
         return object;
     }
 
     public T findObject(String id) {
-        T object = App.em.find(entityClass, id);
+        T object = em.find(entityClass, id);
         return object;
     }
 
     public void saveObject(T object) {
         try {
-            App.em.persist(object);
+            em.persist(object);
         } catch (HibernateException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage());
         }
@@ -46,7 +52,7 @@ public class EntityDao<T> {
 
     public void updateObject(T object) {
         try {
-            App.em.merge(object);
+            em.merge(object);
         } catch (HibernateException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage());
         }
@@ -54,13 +60,13 @@ public class EntityDao<T> {
 
     public void deleteObject(T object) {
         try {
-            if (App.em.contains(object)) {
-                App.em.remove(object);
+            if (em.contains(object)) {
+                em.remove(object);
             } else {
-                Object identifier = App.em.getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(object);
-                T attachedObject = App.em.find(entityClass, identifier);
+                Object identifier = em.getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(object);
+                T attachedObject = em.find(entityClass, identifier);
                 if (attachedObject != null) {
-                    App.em.remove(attachedObject);
+                    em.remove(attachedObject);
                 }
             }
         } catch (HibernateException exception) {
@@ -70,7 +76,7 @@ public class EntityDao<T> {
 
     public void clearTable() {
         try {
-            App.em.createQuery("DELETE FROM " + entityClass.getSimpleName()).executeUpdate();
+            em.createQuery("DELETE FROM " + entityClass.getSimpleName()).executeUpdate();
         } catch (HibernateException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage());
         }

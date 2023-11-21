@@ -39,6 +39,7 @@ public class AddTeacherGUI extends AddGUI {
 
     List<Subject> subjects = em.getAll();
     subjectRadio = new CheckBoxList<>(subjects);
+    
     subjectRadio.setBackground(new Color(0xFFFFFF, false));
     subjectRadio.setFocusable(false);
     addBtn.setBackground(new Color(0xDFD9D9D9, false));
