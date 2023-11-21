@@ -2,6 +2,7 @@ package application.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import application.database.EntityDao;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,6 +14,12 @@ public class Student extends Person {
 	public Student(String _name, String _surname, Klass klass) {
 		super(_name, _surname);
 		setKlass(klass);
+	}
+
+	private static final EntityDao<Student> em = new EntityDao<>(Student.class);
+
+	public static EntityDao<Student> getEntityDao() {
+		return em;
 	}
 
 	@Id 

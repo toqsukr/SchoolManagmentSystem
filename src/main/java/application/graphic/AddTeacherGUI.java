@@ -11,7 +11,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import application.database.EntityDao;
 import application.entities.Subject;
 import application.graphic.ui.CheckBoxList;
 
@@ -35,11 +34,10 @@ public class AddTeacherGUI extends AddGUI {
     
   public AddTeacherGUI() {
     super();
-    EntityDao<Subject> em = new EntityDao<>(Subject.class);
 
-    List<Subject> subjects = em.getAll();
+    List<Subject> subjects = Subject.getEntityDao().getAll();
     subjectRadio = new CheckBoxList<>(subjects);
-    
+
     subjectRadio.setBackground(new Color(0xFFFFFF, false));
     subjectRadio.setFocusable(false);
     addBtn.setBackground(new Color(0xDFD9D9D9, false));

@@ -2,6 +2,7 @@ package application.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import application.database.EntityDao;
 import application.interfaces.IEntityName;
 import jakarta.persistence.*;
 
@@ -13,6 +14,12 @@ public class Subject implements IEntityName {
 
 	public Subject(String _name) {
 		this.setName(_name);
+	}
+
+	private static final EntityDao<Subject> em = new EntityDao<>(Subject.class);
+
+	public static EntityDao<Subject> getEntityDao() {
+		return em;
 	}
 
 	@Id 

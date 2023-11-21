@@ -2,6 +2,7 @@ package application.entities;
 
 import java.util.List;
 
+import application.database.EntityDao;
 import application.interfaces.IEntityName;
 
 import java.util.ArrayList;
@@ -16,6 +17,12 @@ public class Klass implements IEntityName {
 	
 	public Klass(String _name) {
 		this.setName(_name);
+	}
+
+	private static final EntityDao<Klass> em = new EntityDao<>(Klass.class);
+
+	public static EntityDao<Klass> getEntityDao() {
+		return em;
 	}
 	
 	@Id 
