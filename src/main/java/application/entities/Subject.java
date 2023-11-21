@@ -2,14 +2,17 @@ package application.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import application.interfaces.IEntityName;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "subject")
-public class Subject {
+public class Subject implements IEntityName {
+
+	public Subject() {};
 
 	public Subject(String _name) {
-		this.setSubjectName(_name);
+		this.setName(_name);
 	}
 
 	@Id 
@@ -17,11 +20,11 @@ public class Subject {
 
 	private String subjectName;
 
-	public String getSubjectName() {
+	public String getName() {
 		return subjectName;
 	}
 
-	public void setSubjectName(String name) {
+	public void setName(String name) {
 		subjectName = name;
 	}    
 

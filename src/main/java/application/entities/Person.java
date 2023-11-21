@@ -1,8 +1,9 @@
 package application.entities;
+import application.interfaces.IEntityName;
 import jakarta.persistence.*;
 
 @MappedSuperclass
-public abstract class Person {
+public abstract class Person implements IEntityName {
 	
 	@Column(name = "name")
 	private String name;

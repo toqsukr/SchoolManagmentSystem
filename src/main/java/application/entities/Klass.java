@@ -1,29 +1,32 @@
 package application.entities;
 
 import java.util.List;
+
+import application.interfaces.IEntityName;
+
 import java.util.ArrayList;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "klass")
-public class Klass {
+public class Klass implements IEntityName {
 
 	public Klass() {};
 	
 	public Klass(String _name) {
-		this.setKlassName(_name);
+		this.setName(_name);
 	}
 	
 	@Id 
 	@Column(name = "klassName") 
 	private String name; 
 
-	public String getKlassName() {
+	public String getName() {
 		return name;
 	}
 
-	public void setKlassName(String _name) {
+	public void setName(String _name) {
 		this.name = _name;
 	}
 
