@@ -44,22 +44,29 @@ public class EntityDao<T> {
 
     public void saveObject(T object) {
         try {
+            em.getTransaction().begin();
             em.persist(object);
+            em.getTransaction().commit();
         } catch (HibernateException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage());
+            em.getTransaction().rollback();
         }
     }
 
     public void updateObject(T object) {
         try {
+            em.getTransaction().begin();
             em.merge(object);
+            em.getTransaction().commit();
         } catch (HibernateException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage());
+            em.getTransaction().rollback();
         }
     }
 
     public void deleteObject(T object) {
         try {
+            em.getTransaction().begin();
             if (em.contains(object)) {
                 em.remove(object);
             } else {
@@ -69,16 +76,21 @@ public class EntityDao<T> {
                     em.remove(attachedObject);
                 }
             }
+            em.getTransaction().commit();
         } catch (HibernateException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage());
+            em.getTransaction().rollback();
         }
     }
 
     public void clearTable() {
         try {
+            em.getTransaction().begin();
             em.createQuery("DELETE FROM " + entityClass.getSimpleName()).executeUpdate();
+            em.getTransaction().commit();
         } catch (HibernateException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage());
+            em.getTransaction().rollback();
         }
     }
 }
