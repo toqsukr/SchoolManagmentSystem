@@ -3,6 +3,7 @@ package application.entities;
 import java.util.List;
 
 import application.database.EntityDao;
+import application.interfaces.IEntityDao;
 import application.interfaces.IEntityName;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "klass")
-public class Klass implements IEntityName {
+public class Klass implements IEntityName, IEntityDao<Klass> {
 
 	public Klass() {};
 	
@@ -40,17 +41,4 @@ public class Klass implements IEntityName {
 	@OneToMany(mappedBy = "klass")
 	private List<Student> students = new ArrayList<>();
 
-
-	@ManyToMany
-	@JoinTable(
-			name = "klass_has_teacher",
-			joinColumns = {@JoinColumn(name = "klassName")},
-			inverseJoinColumns = {@JoinColumn(name = "teacherID")}
-	)
-	
-	private List<Teacher> teachers = new ArrayList<>();
-
-	public List<Teacher> getTeachers() {
-		return teachers;
-	}
 }

@@ -7,5 +7,3 @@ public class AddButton<T extends AddGUI> extends OpenButton {
     super("Добавить", "images/add.png", frame);
   };
 }
-
-

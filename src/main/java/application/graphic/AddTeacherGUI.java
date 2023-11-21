@@ -12,29 +12,33 @@ import javax.swing.JTextField;
 
 import application.entities.Klass;
 import application.entities.Subject;
+import application.entities.Teacher;
+import application.graphic.ui.AddEntity;
 import application.graphic.ui.CheckBoxList;
+import application.interfaces.IAddObject;
+import application.utils.ListHelper;
 
-public class AddTeacherGUI extends AddGUI {
+public class AddTeacherGUI extends AddGUI implements IAddObject<Teacher> {
 
-    private final JTextField inputNameField = new JTextField(20);
+  private final JTextField inputNameField = new JTextField(20);
 
-    private final JTextField inputSurnameField = new JTextField( 20);
+  private final JTextField inputSurnameField = new JTextField( 20);
 
-    private final CheckBoxList<Subject> subjectCheckBox;
+  private final CheckBoxList<Subject> subjectCheckBox;
 
-    private final CheckBoxList<Klass> klassCheckBox;
+  private final CheckBoxList<Klass> klassCheckBox;
 
-    private final JButton addBtn = new JButton("Добавить");
+  private final AddEntity<Teacher, IAddObject<Teacher>> addBtn = new AddEntity<>("Добавить", Teacher.class, this);
 
-    private final JButton cancelBtn = new JButton("Отмена");
+  private final JButton cancelBtn = new JButton("Отмена");
 
-    private final JLabel nameLabel = new JLabel("Имя:");
+  private final JLabel nameLabel = new JLabel("Имя:");
 
-    private final JLabel surnameLabel = new JLabel("Фамилия:");
+  private final JLabel surnameLabel = new JLabel("Фамилия:");
 
-    private final JLabel subjectLabel = new JLabel("Предмет:");
+  private final JLabel subjectLabel = new JLabel("Предмет:");
 
-    private final JLabel klassLabel = new JLabel("Класс:");
+  private final JLabel klassLabel = new JLabel("Класс:");
     
   public AddTeacherGUI() {
     super();
@@ -70,5 +74,18 @@ public class AddTeacherGUI extends AddGUI {
     panel.add(cancelBtn);
 
     add(panel);
+  }
+
+  public Teacher getObjectToAdd() {
+    String name = inputNameField.getText();
+    String surname = inputSurnameField.getText();
+
+    List<String> stringSubjects = subjectCheckBox.getSelectedItems();
+    List<String> stringKlasses = klassCheckBox.getSelectedItems();
+
+    List<Subject> subjects = new ListHelper<Subject>().getSelectedList(stringSubjects, Subject.class);
+    List<Klass> klasses = new ListHelper<Klass>().getSelectedList(stringKlasses, Klass.class);
+
+    return new Teacher(name, surname, subjects, klasses);
   }
 }

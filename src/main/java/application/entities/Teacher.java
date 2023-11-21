@@ -4,17 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.database.EntityDao;
+import application.interfaces.IEntityDao;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "teacher")
-public class Teacher extends Person {
+public class Teacher extends Person implements IEntityDao<Teacher> {
 
 	public Teacher() {};
 
-	public Teacher(String _name, String _surname, Subject subject) {
+	public Teacher(String _name, String _surname, List<Subject> _subjects, List<Klass> _klasses) {
 		super(_name, _surname);
-		appendSubject(subject);
+		subjects = _subjects;
+		klasses = _klasses;
 	}
 
 	private static final EntityDao<Teacher> em = new EntityDao<>(Teacher.class);
@@ -51,6 +53,19 @@ public class Teacher extends Person {
 
 	public void appendSubject(Subject subject) {
 		subjects.add(subject);
+	}
+
+	@ManyToMany
+	@JoinTable(
+			name = "klass_has_teacher",
+			joinColumns = {@JoinColumn(name = "teacherID")},
+			inverseJoinColumns = {@JoinColumn(name = "klassName")}
+	)
+	
+	private List<Klass> klasses = new ArrayList<>();
+
+	public List<Klass> getKlasses() {
+		return klasses;
 	}
 		
 }

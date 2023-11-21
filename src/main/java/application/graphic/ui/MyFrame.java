@@ -9,7 +9,7 @@ public class MyFrame extends JFrame {
   }
 
   public void toggleEnable() {
-      this.setEnabled(!this.isEnabled());
+    this.setEnabled(!this.isEnabled());
   }
 
   public void toggleVisible() {

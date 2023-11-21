@@ -3,12 +3,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.database.EntityDao;
+import application.interfaces.IEntityDao;
 import application.interfaces.IEntityName;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "subject")
-public class Subject implements IEntityName {
+public class Subject implements IEntityName, IEntityDao<Subject> {
 
 	public Subject() {};
 
@@ -20,6 +21,11 @@ public class Subject implements IEntityName {
 
 	public static EntityDao<Subject> getEntityDao() {
 		return em;
+	}
+
+	
+	public Class<Subject> getEntityClass() {
+		return Subject.class;
 	}
 
 	@Id 
