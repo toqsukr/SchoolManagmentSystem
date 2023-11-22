@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 import java.awt.Container;
@@ -19,7 +18,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import application.graphic.AddGUI;
 import application.interfaces.IEntityFrame;
 import application.utils.ReportManager;
 
@@ -39,11 +37,6 @@ public abstract class EntityFrame<T> extends ChildFrame implements IEntityFrame<
    * This button performs a disrupt values of search inputs
    */
   private JButton disruptInputBtn = new JButton("Сбросить фильтр");
-
-  /**
-   * This button adds new field into table
-   */
-  private AddButton addBtn;
 
   /**
    * This button deletes selected field
@@ -106,24 +99,16 @@ public abstract class EntityFrame<T> extends ChildFrame implements IEntityFrame<
       return editingPermit;
   }
 
-  private AddGUI addObject;
-
   public abstract void setTable();
 
   public abstract List<T> getObjectsToDelete();
 
-  public EntityFrame(String frameName, String searchName, final String[] _columns, Class<T> entityClass, Class<? extends AddGUI> addEntityClass, MyFrame parent) {
+  public EntityFrame(String frameName, String searchName, final String[] _columns, Class<T> entityClass, MyFrame parent) {
     super(frameName, parent);
     this.setBounds(200, 150, 800, 600);
     this.setResizable(false);
     columns = _columns; 
     defaultTable = new DefaultTableModel(data, columns);
-
-    try {
-        addObject = addEntityClass.getDeclaredConstructor(EntityFrame.class).newInstance(this);
-    } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-        e.printStackTrace();
-    }
 
     table = new JTable(defaultTable) {
         @Override
@@ -160,17 +145,16 @@ public abstract class EntityFrame<T> extends ChildFrame implements IEntityFrame<
     filterPanel.add(clearInputBtn);
     filterPanel.add(disruptInputBtn);
 
-    addBtn = new AddButton(addObject);
     deleteBtn = new DeleteEntity<>(entityClass, this);
     editBtn = new ToolButton("Редактировать", "images/edit.png");
-
+    
     reportBtn = new ToolButton("Сделать отчет", "images/report.png");
     reportBtn.addActionListener(new ReportEventListener());
+    
 
-    toolBar.addButton(addBtn);
-    toolBar.addButton(deleteBtn);
-    toolBar.addButton(editBtn);
-    toolBar.addButton(reportBtn);
+    toolBar.add(deleteBtn);
+    toolBar.add(editBtn);
+    toolBar.add(reportBtn);
 
     container.add(toolBar, BorderLayout.NORTH);
     container.add(scroll, BorderLayout.CENTER);

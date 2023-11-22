@@ -8,8 +8,4 @@ public class ToolBar extends JToolBar {
     super();
     this.setFloatable(false);
   }
-
-  public void addButton(ToolButton button) {
-    this.add(button);
-  }
 }

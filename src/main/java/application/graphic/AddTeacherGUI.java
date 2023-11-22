@@ -18,7 +18,6 @@ import application.entities.Subject;
 import application.entities.Teacher;
 import application.graphic.ui.AddEntity;
 import application.graphic.ui.CheckBoxList;
-import application.graphic.ui.EntityFrame;
 import application.interfaces.IAddFrame;
 import application.utils.ListHelper;
 
@@ -44,9 +43,9 @@ public class AddTeacherGUI extends AddGUI implements IAddFrame<Teacher> {
 
   private final JLabel klassLabel = new JLabel("Класс:");
 
-  private final EntityFrame<Teacher> parent;
+  private final TeacherGUI parent;
     
-  public AddTeacherGUI(EntityFrame<Teacher> _parent) {
+  public AddTeacherGUI(TeacherGUI _parent) {
     super(_parent);
     parent = _parent;
 

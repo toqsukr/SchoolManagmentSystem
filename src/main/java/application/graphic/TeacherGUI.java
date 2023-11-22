@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.entities.Teacher;
+import application.graphic.ui.AddButton;
 import application.graphic.ui.EntityFrame;
 import application.graphic.ui.MyFrame;
 import application.graphic.ui.MyTable;
@@ -11,9 +12,18 @@ import application.utils.ListHelper;
 
 
 public class TeacherGUI extends EntityFrame<Teacher> {
+
+    private AddButton addBtn;
+
+    private final AddTeacherGUI addWindow = new AddTeacherGUI(this);
     
     public TeacherGUI(MyFrame parent) {
-        super("Список учителей", "Фамилия учителя", new String[] {"ID", "Имя", "Фамилия"}, Teacher.class, AddTeacherGUI.class, parent);
+        super("Список учителей", "Фамилия учителя", new String[] {"ID", "Имя", "Фамилия"}, Teacher.class, parent);
+
+        addBtn = new AddButton(addWindow);
+
+        toolBar.add(addBtn, 0);
+
         setTable();
     }
 

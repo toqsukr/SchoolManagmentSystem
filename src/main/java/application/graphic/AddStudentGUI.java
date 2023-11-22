@@ -17,7 +17,6 @@ import application.entities.Klass;
 import application.entities.Student;
 import application.graphic.ui.AddEntity;
 import application.graphic.ui.CheckBoxList;
-import application.graphic.ui.EntityFrame;
 import application.interfaces.IAddFrame;
 
 public class AddStudentGUI extends AddGUI implements IAddFrame<Student> {
@@ -38,9 +37,9 @@ public class AddStudentGUI extends AddGUI implements IAddFrame<Student> {
 
   private final JLabel klassLabel = new JLabel("Класс:");
 
-  private final EntityFrame<AddStudentGUI> parent;
+  private final StudentGUI parent;
     
-  public AddStudentGUI(EntityFrame<AddStudentGUI> _parent) {
+  public AddStudentGUI(StudentGUI _parent) {
     super(_parent);
     parent = _parent;
 
