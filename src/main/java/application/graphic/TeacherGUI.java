@@ -8,7 +8,8 @@ import application.graphic.ui.MyFrame;
 import application.graphic.ui.MyTable;
 
 
-public class TeacherGUI extends EntityFrame<AddTeacherGUI> {
+public class TeacherGUI extends EntityFrame<Teacher> {
+    
     public TeacherGUI(MyFrame parent) {
         super("Список учителей", "Фамилия учителя", new String[] {"ID", "Имя", "Фамилия"}, AddTeacherGUI.class, parent);
         setTable();
@@ -23,5 +24,9 @@ public class TeacherGUI extends EntityFrame<AddTeacherGUI> {
             defaultTable.addRow(
                     new String[] { teacher.getTeacherID().toString(), teacher.getName(), teacher.getSurname()});
         }
+    }
+
+    public Teacher getObjectToDelete() {
+        return new Teacher();
     }
 }

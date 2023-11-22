@@ -44,9 +44,9 @@ public class AddTeacherGUI extends AddGUI implements IAddFrame<Teacher> {
 
   private final JLabel klassLabel = new JLabel("Класс:");
 
-  private final EntityFrame<AddTeacherGUI> parent;
+  private final EntityFrame<Teacher> parent;
     
-  public AddTeacherGUI(EntityFrame<AddTeacherGUI> _parent) {
+  public AddTeacherGUI(EntityFrame<Teacher> _parent) {
     super(_parent);
     parent = _parent;
 

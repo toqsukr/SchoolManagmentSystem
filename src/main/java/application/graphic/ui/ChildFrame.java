@@ -6,4 +6,8 @@ public class ChildFrame extends MyFrame {
     super(name);
     parentWindow = _parentWindow;
   }
+
+  public void setParent(MyFrame _parentWindow) {
+    parentWindow = _parentWindow;
+  } 
 }

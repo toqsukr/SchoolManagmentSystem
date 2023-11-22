@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import application.graphic.AddGUI;
 
 
-public abstract class EntityFrame<T extends AddGUI> extends ChildFrame {
+public abstract class EntityFrame<T> extends ChildFrame {
   /**
    * This button performs a search
    */
@@ -99,22 +99,21 @@ public abstract class EntityFrame<T extends AddGUI> extends ChildFrame {
       return editingPermit;
   }
 
-  private Class<T> entityClass;
-
-  private T addObject;
+  private AddGUI addObject;
 
   public abstract void setTable();
 
-  public EntityFrame(String frameName, String searchName, final String[] _columns, Class<T> _entityClass, MyFrame parent) {
+  public abstract T getObjectToDelete();
+
+  public EntityFrame(String frameName, String searchName, final String[] _columns, Class<? extends AddGUI> addEntityClass, MyFrame parent) {
     super(frameName, parent);
     this.setBounds(200, 150, 800, 600);
     this.setResizable(false);
-    entityClass = _entityClass;
     columns = _columns; 
     defaultTable = new DefaultTableModel(data, columns);
 
     try {
-        addObject = entityClass.getDeclaredConstructor(EntityFrame.class).newInstance(this);
+        addObject = addEntityClass.getDeclaredConstructor(EntityFrame.class).newInstance(this);
     } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
         e.printStackTrace();
     }
@@ -154,7 +153,7 @@ public abstract class EntityFrame<T extends AddGUI> extends ChildFrame {
     filterPanel.add(clearInputBtn);
     filterPanel.add(disruptInputBtn);
 
-    addBtn = new AddButton<T>(addObject);
+    addBtn = new AddButton(addObject);
     deleteBtn = new ToolButton("Удалить", "images/remove.png");
     editBtn = new ToolButton("Редактировать", "images/edit.png");
     reportBtn = new ToolButton("Сделать отчет", "images/report.png");
