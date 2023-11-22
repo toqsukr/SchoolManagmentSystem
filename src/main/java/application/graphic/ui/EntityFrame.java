@@ -14,7 +14,6 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -78,7 +77,7 @@ public abstract class EntityFrame<T> extends ChildFrame implements IEntityFrame<
   /**
    * Create the table
    */
-  protected final JTable table;
+  protected final MyTable table;
 
   /**
    * Creation of the scroll panel
@@ -93,11 +92,6 @@ public abstract class EntityFrame<T> extends ChildFrame implements IEntityFrame<
   /***
    * Variable storing table edit status
    */
-  private boolean editingPermit = false;
-
-  private boolean getEditingPermit() {
-      return editingPermit;
-  }
 
   public abstract void setTable();
 
@@ -110,12 +104,7 @@ public abstract class EntityFrame<T> extends ChildFrame implements IEntityFrame<
     columns = _columns; 
     defaultTable = new DefaultTableModel(data, columns);
 
-    table = new JTable(defaultTable) {
-        @Override
-        public boolean isCellEditable(int i, int j) {
-            return j != 0 && getEditingPermit();
-        }
-    };
+    table = new MyTable(defaultTable);
 
     scroll = new JScrollPane(table);
 
@@ -129,7 +118,7 @@ public abstract class EntityFrame<T> extends ChildFrame implements IEntityFrame<
     disruptInputBtn.setBackground(new Color(0xDFD9D9D9, false));
 
 
-    searchNameField = new JTextField(searchName, 20);
+    searchNameField = new JTextField(searchName, 15);
 
     searchNameField.setMargin(new Insets(2, 2, 3, 0));
 
