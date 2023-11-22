@@ -2,20 +2,22 @@ package application.graphic.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
+import java.util.List;
 
 import application.database.EntityDao;
-import application.interfaces.IEntityName;
+import application.interfaces.IEntityFrame;
 
-public class DeleteEntity<T extends IEntityName, E extends EntityFrame<T>> extends JButton  {
-    public DeleteEntity(String name, Class<T> entityClass, E parentWindow) {
-    super(name);
+public class DeleteEntity<T, E extends IEntityFrame<T>> extends ToolButton  {
+    public DeleteEntity(Class<T> entityClass, E parentWindow) {
+    super("Удалить", "images/remove.png");
     this.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         EntityDao<T> dao = new EntityDao<>(entityClass);
-        T object = parentWindow.getObjectToDelete();
-        dao.deleteObject(object);
+        List<T> objects = parentWindow.getObjectsToDelete();
+        for(T object: objects) {
+          dao.deleteObject(object);
+        }
+        parentWindow.setTable();
       }
     });
   }

@@ -3,11 +3,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.database.EntityDao;
+import application.interfaces.IEntityDao;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "student")
-public class Student extends Person {	
+public class Student extends Person implements IEntityDao<Student> {	
 
 	public Student() {};
 

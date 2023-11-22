@@ -1,6 +1,8 @@
 package application.interfaces;
 
+import java.util.List;
+
 public interface IEntityFrame<T> {
   public void setTable();
-  public T getObjectToDelete();
+  public List<T> getObjectsToDelete();
 }

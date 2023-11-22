@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Insets;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.awt.Container;
 
 import javax.swing.JButton;
@@ -15,9 +16,10 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import application.graphic.AddGUI;
+import application.interfaces.IEntityFrame;
 
 
-public abstract class EntityFrame<T> extends ChildFrame {
+public abstract class EntityFrame<T> extends ChildFrame implements IEntityFrame<T> {
   /**
    * This button performs a search
    */
@@ -41,7 +43,7 @@ public abstract class EntityFrame<T> extends ChildFrame {
   /**
    * This button deletes selected field
    */
-  private ToolButton deleteBtn;
+  private DeleteEntity<T, IEntityFrame<T>> deleteBtn;
 
   /**
    * This button allows you to edit selected field
@@ -78,7 +80,7 @@ public abstract class EntityFrame<T> extends ChildFrame {
   /**
    * Create the table
    */
-  private final JTable table;
+  protected final JTable table;
 
   /**
    * Creation of the scroll panel
@@ -103,9 +105,9 @@ public abstract class EntityFrame<T> extends ChildFrame {
 
   public abstract void setTable();
 
-  public abstract T getObjectToDelete();
+  public abstract List<T> getObjectsToDelete();
 
-  public EntityFrame(String frameName, String searchName, final String[] _columns, Class<? extends AddGUI> addEntityClass, MyFrame parent) {
+  public EntityFrame(String frameName, String searchName, final String[] _columns, Class<T> entityClass, Class<? extends AddGUI> addEntityClass, MyFrame parent) {
     super(frameName, parent);
     this.setBounds(200, 150, 800, 600);
     this.setResizable(false);
@@ -154,7 +156,7 @@ public abstract class EntityFrame<T> extends ChildFrame {
     filterPanel.add(disruptInputBtn);
 
     addBtn = new AddButton(addObject);
-    deleteBtn = new ToolButton("Удалить", "images/remove.png");
+    deleteBtn = new DeleteEntity<>(entityClass, this);
     editBtn = new ToolButton("Редактировать", "images/edit.png");
     reportBtn = new ToolButton("Сделать отчет", "images/report.png");
 

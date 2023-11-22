@@ -1,16 +1,18 @@
 package application.graphic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import application.entities.Student;
 import application.graphic.ui.EntityFrame;
 import application.graphic.ui.MyFrame;
 import application.graphic.ui.MyTable;
+import application.utils.ListHelper;
 
 
 public class StudentGUI extends EntityFrame<Student> {
     public StudentGUI(MyFrame parent) {
-        super("Список студентов", "Фамилия студента", new String[] {"ID", "Имя", "Фамилия", "Класс"}, AddStudentGUI.class, parent);
+        super("Список студентов", "Фамилия студента", new String[] {"ID", "Имя", "Фамилия", "Класс"}, Student.class, AddStudentGUI.class, parent);
         setTable();
     }
 
@@ -25,7 +27,13 @@ public class StudentGUI extends EntityFrame<Student> {
         }
     }
 
-    public Student getObjectToDelete() {
-        return new Student();
+    public List<Student> getObjectsToDelete() {
+        int[] selectedIndexes = table.getSelectedRows();
+        List<String> stringObjects = new ArrayList<>();
+        for(int index: selectedIndexes) {
+            stringObjects.add(defaultTable.getValueAt(index, 0).toString());
+        }
+        ListHelper<Student> helper = new ListHelper<>();
+        return helper.getSelectedList(stringObjects, Student.class);
     }
 }
