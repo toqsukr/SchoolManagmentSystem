@@ -3,12 +3,16 @@ package application.graphic.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.List;
 import java.awt.Container;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -17,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 import application.graphic.AddGUI;
 import application.interfaces.IEntityFrame;
+import application.utils.ReportManager;
 
 
 public abstract class EntityFrame<T> extends ChildFrame implements IEntityFrame<T> {
@@ -158,7 +163,9 @@ public abstract class EntityFrame<T> extends ChildFrame implements IEntityFrame<
     addBtn = new AddButton(addObject);
     deleteBtn = new DeleteEntity<>(entityClass, this);
     editBtn = new ToolButton("Редактировать", "images/edit.png");
+
     reportBtn = new ToolButton("Сделать отчет", "images/report.png");
+    reportBtn.addActionListener(new ReportEventListener());
 
     toolBar.addButton(addBtn);
     toolBar.addButton(deleteBtn);
@@ -169,4 +176,27 @@ public abstract class EntityFrame<T> extends ChildFrame implements IEntityFrame<
     container.add(scroll, BorderLayout.CENTER);
     container.add(filterPanel, BorderLayout.SOUTH);
   }
+
+    private class ReportEventListener implements ActionListener {
+        /***
+         *
+         * @param e the event to be processed
+         */
+        public void actionPerformed(ActionEvent e) {
+            printReport();
+        }
+    }
+
+    private void printReport() {
+        try {
+            float[] columnSizes = new float[columns.length];
+            Arrays.fill(columnSizes, 1f);
+            ReportManager reportManager = new ReportManager(defaultTable, this, "Отчет\n\n\n\n",
+            columnSizes, columns);
+            reportManager.printReport();
+        } catch (Exception exception) {
+            JOptionPane.showMessageDialog(this, exception.getMessage(), "Ошибка формирования отчета",
+            JOptionPane.PLAIN_MESSAGE);
+        }
+    }
 }
