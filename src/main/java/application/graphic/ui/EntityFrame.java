@@ -43,7 +43,7 @@ public abstract class EntityFrame<T> extends ChildFrame implements IEntityFrame<
   /**
    * This button adds new field into table
    */
-  private ToolButton addBtn;
+  private AddButton addBtn;
 
   /**
    * This button deletes selected field
@@ -64,7 +64,7 @@ public abstract class EntityFrame<T> extends ChildFrame implements IEntityFrame<
 
   private JComboBox<String> comboSearchKlass = new JComboBox<>();
 
-  private final ToolBar toolBar = new ToolBar();
+  protected final ToolBar toolBar = new ToolBar();
 
   /**
    * Table column names
