@@ -6,10 +6,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import application.database.EntityDao;
-import application.interfaces.IAddObject;
+import application.interfaces.IAddFrame;
 import application.interfaces.IEntityName;
 
-public class AddEntity<T extends IEntityName, E extends IAddObject<T>> extends JButton {
+public class AddEntity<T extends IEntityName, E extends IAddFrame<T>> extends JButton {
   public AddEntity(String name, Class<T> entityClass, E parentWindow) {
     super(name);
     this.addActionListener(new ActionListener() {
@@ -17,6 +17,7 @@ public class AddEntity<T extends IEntityName, E extends IAddObject<T>> extends J
         EntityDao<T> dao = new EntityDao<>(entityClass);
         T object = parentWindow.getObjectToAdd();
         dao.saveObject(object);
+        parentWindow.closeOperation();
       }
     });
   }

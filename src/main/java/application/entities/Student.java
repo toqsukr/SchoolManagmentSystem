@@ -25,9 +25,9 @@ public class Student extends Person {
 	@Id 
 	@Column(name = "studentID") 
 	@GeneratedValue(strategy =  GenerationType.IDENTITY)
-	private int studentID;
+	private Integer studentID;
 
-	public int getStudentID() {
+	public Integer getStudentID() {
 		return studentID;
 	}
 
@@ -35,7 +35,7 @@ public class Student extends Person {
 		studentID = id;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "klassName")
 
 	private Klass klass;

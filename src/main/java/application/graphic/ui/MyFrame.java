@@ -2,7 +2,9 @@ package application.graphic.ui;
 
 import javax.swing.JFrame;
 
-public class MyFrame extends JFrame {
+import application.interfaces.IFrame;
+
+public class MyFrame extends JFrame implements IFrame {
 
   public MyFrame(String name) {
     super(name);

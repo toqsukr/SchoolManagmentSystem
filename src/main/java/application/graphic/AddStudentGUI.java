@@ -14,25 +14,21 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import application.entities.Klass;
-import application.entities.Subject;
-import application.entities.Teacher;
+import application.entities.Student;
 import application.graphic.ui.AddEntity;
 import application.graphic.ui.CheckBoxList;
 import application.graphic.ui.EntityFrame;
 import application.interfaces.IAddFrame;
-import application.utils.ListHelper;
 
-public class AddTeacherGUI extends AddGUI implements IAddFrame<Teacher> {
+public class AddStudentGUI extends AddGUI implements IAddFrame<Student> {
 
   private final JTextField inputNameField = new JTextField(20);
 
   private final JTextField inputSurnameField = new JTextField( 20);
 
-  private final CheckBoxList<Subject> subjectCheckBox;
-
   private final CheckBoxList<Klass> klassCheckBox;
 
-  private final AddEntity<Teacher, IAddFrame<Teacher>> addBtn = new AddEntity<>("Добавить", Teacher.class, this);
+  private final AddEntity<Student, IAddFrame<Student>> addBtn = new AddEntity<>("Добавить", Student.class, this);
 
   private final JButton cancelBtn = new JButton("Отмена");
 
@@ -40,13 +36,11 @@ public class AddTeacherGUI extends AddGUI implements IAddFrame<Teacher> {
 
   private final JLabel surnameLabel = new JLabel("Фамилия:");
 
-  private final JLabel subjectLabel = new JLabel("Предмет:");
-
   private final JLabel klassLabel = new JLabel("Класс:");
 
-  private final EntityFrame<AddTeacherGUI> parent;
+  private final EntityFrame<AddStudentGUI> parent;
     
-  public AddTeacherGUI(EntityFrame<AddTeacherGUI> _parent) {
+  public AddStudentGUI(EntityFrame<AddStudentGUI> _parent) {
     super(_parent);
     parent = _parent;
 
@@ -57,14 +51,9 @@ public class AddTeacherGUI extends AddGUI implements IAddFrame<Teacher> {
       }
     });
 
-    List<Subject> subjects = Subject.getEntityDao().getAll();
-    subjectCheckBox = new CheckBoxList<>(subjects);
-
     List<Klass> klasses = Klass.getEntityDao().getAll();
     klassCheckBox = new CheckBoxList<>(klasses);
   
-    subjectCheckBox.setBackground(new Color(0xFFFFFF, false));
-    subjectCheckBox.setFocusable(false);
     addBtn.setBackground(new Color(0xDFD9D9D9, false));
     cancelBtn.setBackground(new Color(0xDFD9D9D9, false));
 
@@ -77,9 +66,6 @@ public class AddTeacherGUI extends AddGUI implements IAddFrame<Teacher> {
 
     panel.add(surnameLabel);
     panel.add(inputSurnameField);
-
-    panel.add(subjectLabel);
-    panel.add(subjectCheckBox);
 
     panel.add(klassLabel);
     panel.add(klassCheckBox);
@@ -95,16 +81,14 @@ public class AddTeacherGUI extends AddGUI implements IAddFrame<Teacher> {
     dispose();
   }
 
-  public Teacher getObjectToAdd() {
+  public Student getObjectToAdd() {
     String name = inputNameField.getText();
     String surname = inputSurnameField.getText();
 
-    List<String> stringSubjects = subjectCheckBox.getSelectedItems();
     List<String> stringKlasses = klassCheckBox.getSelectedItems();
 
-    List<Subject> subjects = new ListHelper<Subject>().getSelectedList(stringSubjects, Subject.class);
-    List<Klass> klasses = new ListHelper<Klass>().getSelectedList(stringKlasses, Klass.class);
+    Klass klass = new Klass(stringKlasses.get(0));
 
-    return new Teacher(name, surname, subjects, klasses);
+    return new Student(name, surname, klass);
   }
 }
