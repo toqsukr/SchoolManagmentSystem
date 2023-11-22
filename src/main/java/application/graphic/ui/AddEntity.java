@@ -16,6 +16,7 @@ public class AddEntity<T, E extends IAddFrame<T>> extends JButton {
         EntityDao<T> dao = new EntityDao<>(entityClass);
         T object = parentWindow.getObjectToAdd();
         dao.saveObject(object);
+        parentWindow.clearFields();
         parentWindow.closeOperation();
       }
     });

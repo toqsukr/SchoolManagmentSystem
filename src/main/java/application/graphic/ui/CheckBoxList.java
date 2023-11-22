@@ -35,14 +35,25 @@ public class CheckBoxList<T extends IEntityName> extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    // Метод для получения выбранных элементов из списка
     public List<String> getSelectedItems() {
         return checkBoxList.getSelectedValuesList();
     }
 
-    // Добавление элемента в список
     public void addItem(String item) {
         listModel.addElement(item);
+    }
+
+    public void resetCheckBoxes() {
+        for (int i = 0; i < listModel.size(); i++) {
+            setItemChecked(i, false);
+        }
+    }
+
+    private void setItemChecked(int index, boolean checked) {
+        if (index >= 0 && index < listModel.size()) {
+            checkBoxList.getSelectionModel().removeSelectionInterval(index, index);
+            checkBoxList.repaint();
+        }
     }
 
     // Создаем рендерер для JList, который содержит чекбоксы

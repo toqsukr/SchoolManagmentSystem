@@ -90,6 +90,13 @@ public class AddTeacherGUI extends AddGUI implements IAddFrame<Teacher> {
     add(panel);
   }
 
+  public void clearFields() {
+    inputNameField.setText("");
+    inputSurnameField.setText("");
+    klassCheckBox.resetCheckBoxes();
+    subjectCheckBox.resetCheckBoxes();
+  }
+
   public void closeOperation() {
     parent.setTable();
     dispose();

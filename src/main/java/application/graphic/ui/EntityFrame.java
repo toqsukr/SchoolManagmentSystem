@@ -178,10 +178,6 @@ public abstract class EntityFrame<T> extends ChildFrame implements IEntityFrame<
   }
 
     private class ReportEventListener implements ActionListener {
-        /***
-         *
-         * @param e the event to be processed
-         */
         public void actionPerformed(ActionEvent e) {
             printReport();
         }

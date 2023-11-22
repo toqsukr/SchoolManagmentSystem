@@ -76,6 +76,12 @@ public class AddStudentGUI extends AddGUI implements IAddFrame<Student> {
     add(panel);
   }
 
+  public void clearFields() {
+    inputNameField.setText("");
+    inputSurnameField.setText("");
+    klassCheckBox.resetCheckBoxes();
+  }
+
   public void closeOperation() {
     parent.setTable();
     dispose();
