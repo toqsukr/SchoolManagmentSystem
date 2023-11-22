@@ -55,4 +55,29 @@ public class Student extends Person implements IEntityDao<Student> {
 	public List<Progress> getProgress() {
 		return progress;
 	}
+
+	public Double getAverageMark() {
+		Double averageMark = 0.0;
+		Integer markCount = 0;
+		for(Progress value: progress) {
+			if(!value.getAverageMark().equals(0.0)) {
+				averageMark += value.getAverageMark();
+				markCount++;
+			}
+		}
+		return averageMark / markCount;
+	}
+
+	public String determineStudentStatus() {
+		Double averageGrade = getAverageMark();
+		if (averageGrade >= 4.5) {
+				return "Отличник";
+		} else if (averageGrade >= 4.0 && averageGrade < 4.5) {
+				return "Хорошист";
+		} else if (averageGrade >= 3.0 && averageGrade < 4.0) {
+				return "Троечник";
+		} else {
+				return "Двоечник";
+		}
+	}
 }

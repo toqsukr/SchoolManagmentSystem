@@ -19,14 +19,14 @@ public class MyTable extends JTable {
         return editingPermit;
     }
 
-  public static void clearTable(DefaultTableModel table) {
+    public static void clearTable(DefaultTableModel table) {
         int n = table.getRowCount();
         for (int i = 0; i < n; i++) {
             table.removeRow(n - i - 1);
         }
     }
 
-     private static class CustomCellRenderer extends DefaultTableCellRenderer {
+    private static class CustomCellRenderer extends DefaultTableCellRenderer {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
                                                        boolean hasFocus, int row, int column) {

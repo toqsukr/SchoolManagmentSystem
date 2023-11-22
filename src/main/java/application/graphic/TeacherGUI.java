@@ -6,6 +6,7 @@ import java.util.List;
 import application.entities.Teacher;
 import application.graphic.ui.AddButton;
 import application.graphic.ui.EntityFrame;
+import application.graphic.ui.InfoButton;
 import application.graphic.ui.MyFrame;
 import application.graphic.ui.MyTable;
 import application.utils.ListHelper;
@@ -13,7 +14,11 @@ import application.utils.ListHelper;
 
 public class TeacherGUI extends EntityFrame<Teacher> {
 
+    private InfoButton infoBtn;
+    
     private AddButton addBtn;
+    
+    private final InfoGUI infoWindow = new InfoGUI(this);
 
     private final AddTeacherGUI addWindow = new AddTeacherGUI(this);
     
@@ -21,7 +26,9 @@ public class TeacherGUI extends EntityFrame<Teacher> {
         super("Список учителей", "Фамилия учителя", new String[] {"ID", "Имя", "Фамилия"}, Teacher.class, parent);
 
         addBtn = new AddButton(addWindow);
+        infoBtn = new InfoButton(infoWindow);
         toolBar.add(addBtn, 0);
+        toolBar.add(infoBtn);
         setTable();
     }
 

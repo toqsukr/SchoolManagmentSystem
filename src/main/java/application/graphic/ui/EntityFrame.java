@@ -89,10 +89,6 @@ public abstract class EntityFrame<T> extends ChildFrame implements IEntityFrame<
    */
   private final JPanel filterPanel = new JPanel();
 
-  /***
-   * Variable storing table edit status
-   */
-
   public abstract void setTable();
 
   public abstract List<T> getObjectsToDelete();

@@ -17,5 +17,4 @@ public class MyFrame extends JFrame implements IFrame {
   public void toggleVisible() {
     this.setVisible(!this.isVisible());
   }
-
 }

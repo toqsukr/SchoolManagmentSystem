@@ -13,6 +13,7 @@ import application.utils.ListHelper;
 
 
 public class StudentGUI extends EntityFrame<Student> {
+
     private InfoButton infoBtn;
 
     private AddButton addBtn;
@@ -22,7 +23,7 @@ public class StudentGUI extends EntityFrame<Student> {
     private final AddStudentGUI addWindow = new AddStudentGUI(this);
 
     public StudentGUI(MyFrame parent) {
-        super("Список студентов", "Фамилия студента", new String[] {"ID", "Имя", "Фамилия", "Класс"}, Student.class, parent);
+        super("Список студентов", "Фамилия студента", new String[] {"ID", "Имя", "Фамилия", "Класс", "Успеваемость"}, Student.class, parent);
 
         addBtn = new AddButton(addWindow);
         infoBtn = new InfoButton(infoWindow);
@@ -38,8 +39,11 @@ public class StudentGUI extends EntityFrame<Student> {
         List<Student> students = Student.getEntityDao().getAll();
 
         for (Student student : students) {
+            if(student.getStudentID().equals(7)) {
+                System.out.println(student.getAverageMark());
+            }
             defaultTable.addRow(
-                    new String[] { student.getStudentID().toString(), student.getName(), student.getSurname(), student.getKlass().getName()});
+                    new String[] { student.getStudentID().toString(), student.getName(), student.getSurname(), student.getKlass().getName(), student.determineStudentStatus()});
         }
     }
 
