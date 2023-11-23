@@ -4,26 +4,31 @@ import java.util.List;
 
 import application.entities.Teacher;
 import application.graphic.ui.MyTable;
-import application.graphic.ui.buttons.AddButton;
-import application.graphic.ui.buttons.InfoButton;
+import application.graphic.ui.buttons.AddOpenButton;
+import application.graphic.ui.buttons.EditOpenButton;
+import application.graphic.ui.buttons.InfoOpenButton;
 import application.graphic.ui.frames.EntityFrame;
 import application.graphic.ui.frames.MyFrame;
 
 
 public class TeacherFrame extends EntityFrame<Teacher> {
 
-    private InfoButton<Teacher, InfoTeacherFrame> infoBtn;
+    private InfoOpenButton<Teacher> infoBtn;
+
+    private EditOpenButton<Teacher> editBtn;
     
-    private AddButton addBtn;
+    private AddOpenButton addBtn;
     
     private final AddTeacherFrame addWindow = new AddTeacherFrame(this);
     
     public TeacherFrame(MyFrame parent) {
         super("Список учителей", "Фамилия учителя", new String[] {"ID", "Имя", "Фамилия"}, Teacher.class, parent);
 
-        addBtn = new AddButton(addWindow);
-        infoBtn = new InfoButton<>(this, Teacher.class, InfoTeacherFrame.class);
+        addBtn = new AddOpenButton(addWindow);
+        infoBtn = new InfoOpenButton<>(this, Teacher.class, InfoTeacherFrame.class);
+        editBtn = new EditOpenButton<>(this, Teacher.class, EditTeacherFrame.class);
         toolBar.add(addBtn, 0);
+        toolBar.add(editBtn, 2);
         toolBar.add(infoBtn);
         setTable();
     }

@@ -50,11 +50,6 @@ public abstract class EntityFrame<T extends IEntityName> extends ChildFrame impl
   private DeleteEntityButton<T> deleteBtn;
 
   /**
-   * This button allows you to edit selected field
-   */
-  protected ToolButton editBtn;
-
-  /**
    * This button forms report
    */
   private ToolButton reportBtn;
@@ -139,14 +134,12 @@ public abstract class EntityFrame<T extends IEntityName> extends ChildFrame impl
     filterPanel.add(disruptInputBtn);
 
     deleteBtn = new DeleteEntityButton<>(entityClass, this);
-    editBtn = new ToolButton("Редактировать", "images/edit.png");
     
     reportBtn = new ToolButton("Сделать отчет", "images/report.png");
     reportBtn.addActionListener(new ReportEventListener());
     
 
     toolBar.add(deleteBtn);
-    toolBar.add(editBtn);
     toolBar.add(reportBtn);
 
     container.add(toolBar, BorderLayout.NORTH);
