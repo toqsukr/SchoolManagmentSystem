@@ -5,6 +5,7 @@ import java.util.List;
 import application.entities.Student;
 import application.graphic.ui.MyTable;
 import application.graphic.ui.buttons.AddOpenButton;
+import application.graphic.ui.buttons.EditOpenButton;
 import application.graphic.ui.buttons.InfoOpenButton;
 import application.graphic.ui.frames.EntityFrame;
 import application.graphic.ui.frames.MyFrame;
@@ -13,6 +14,8 @@ import application.graphic.ui.frames.MyFrame;
 public class StudentFrame extends EntityFrame<Student> {
 
     private InfoOpenButton<Student> infoBtn;
+
+    private EditOpenButton<Student> editBtn;
 
     private AddOpenButton addBtn;
 
@@ -23,8 +26,10 @@ public class StudentFrame extends EntityFrame<Student> {
 
         addBtn = new AddOpenButton(addWindow);
         infoBtn = new InfoOpenButton<>(this, Student.class, InfoStudentFrame.class);
+        editBtn = new EditOpenButton<>(this, Student.class, EditStudentFrame.class);
 
         toolBar.add(addBtn, 0);
+        toolBar.add(editBtn, 2);
         toolBar.add(infoBtn);
         setTable();
     }

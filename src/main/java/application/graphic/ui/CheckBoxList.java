@@ -43,6 +43,18 @@ public class CheckBoxList<T extends IEntityName> extends JPanel {
         listModel.addElement(item);
     }
 
+    public void fillCheckbox(T object) {
+        for (int i = 0; i < listModel.size(); i++) {
+            setItemChecked(i, listModel.get(i).equals(object.getName()));
+        }
+    }
+
+    public void fillCheckboxes(List<T> objects) {
+        for(T object: objects) {
+            fillCheckbox(object);
+        }
+    }
+
     public void resetCheckBoxes() {
         for (int i = 0; i < listModel.size(); i++) {
             setItemChecked(i, false);
@@ -52,7 +64,9 @@ public class CheckBoxList<T extends IEntityName> extends JPanel {
     private void setItemChecked(int index, boolean checked) {
         if (index >= 0 && index < listModel.size()) {
             checkBoxList.getSelectionModel().removeSelectionInterval(index, index);
-            checkBoxList.repaint();
+            if (checked) {
+                checkBoxList.addSelectionInterval(index, index);
+            }
         }
     }
 

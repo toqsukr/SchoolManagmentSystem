@@ -18,17 +18,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import application.entities.Person;
 import application.graphic.ui.MyTable;
 import application.graphic.ui.ToolBar;
 import application.graphic.ui.buttons.DeleteEntityButton;
 import application.graphic.ui.buttons.ToolButton;
 import application.interfaces.IEntityFrame;
-import application.interfaces.IEntityName;
 import application.utils.ListHelper;
 import application.utils.ReportManager;
 
 
-public abstract class EntityFrame<T extends IEntityName> extends ChildFrame implements IEntityFrame<T> {
+public abstract class EntityFrame<T extends Person> extends ChildFrame implements IEntityFrame<T> {
   /**
    * This button performs a search
    */
@@ -74,7 +74,6 @@ public abstract class EntityFrame<T extends IEntityName> extends ChildFrame impl
    * The table model storing displaying data
    */  
   protected DefaultTableModel defaultTable;
-
 
   /**
    * Create the table
