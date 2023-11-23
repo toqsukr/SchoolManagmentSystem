@@ -14,7 +14,7 @@ import application.utils.ListHelper;
 
 public class StudentGUI extends EntityFrame<Student> {
 
-    private InfoButton infoBtn;
+    private InfoButton<Student, InfoStudentGUI> infoBtn;
 
     private AddButton addBtn;
 
@@ -24,7 +24,7 @@ public class StudentGUI extends EntityFrame<Student> {
         super("Список студентов", "Фамилия студента", new String[] {"ID", "Имя", "Фамилия", "Класс", "Успеваемость"}, Student.class, parent);
 
         addBtn = new AddButton(addWindow);
-        infoBtn = new InfoButton(this);
+        infoBtn = new InfoButton<>(this, Student.class, InfoStudentGUI.class);
 
         toolBar.add(addBtn, 0);
         toolBar.add(infoBtn);
