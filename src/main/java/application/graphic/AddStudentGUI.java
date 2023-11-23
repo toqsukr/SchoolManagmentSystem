@@ -27,7 +27,7 @@ public class AddStudentGUI extends AddGUI implements IAddFrame<Student> {
 
   private final CheckBoxList<Klass> klassCheckBox;
 
-  private final AddEntity<Student, IAddFrame<Student>> addBtn = new AddEntity<>("Добавить", Student.class, this);
+  private final AddEntity<Student> addBtn = new AddEntity<>("Добавить", Student.class, this);
 
   private final JButton cancelBtn = new JButton("Отмена");
 

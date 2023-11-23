@@ -43,7 +43,7 @@ public abstract class EntityFrame<T extends IEntityName> extends ChildFrame impl
   /**
    * This button deletes selected field
    */
-  private DeleteEntity<T, IEntityFrame<T>> deleteBtn;
+  private DeleteEntity<T> deleteBtn;
 
   /**
    * This button allows you to edit selected field

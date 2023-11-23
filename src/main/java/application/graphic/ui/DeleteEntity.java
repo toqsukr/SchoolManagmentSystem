@@ -9,8 +9,8 @@ import javax.swing.JOptionPane;
 import application.database.EntityDao;
 import application.interfaces.IEntityFrame;
 
-public class DeleteEntity<T, E extends IEntityFrame<T>> extends ToolButton  {
-    public DeleteEntity(Class<T> entityClass, E parentWindow) {
+public class DeleteEntity<T> extends ToolButton  {
+    public DeleteEntity(Class<T> entityClass, IEntityFrame<T> parentWindow) {
     super("Удалить", "images/remove.png");
     this.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {

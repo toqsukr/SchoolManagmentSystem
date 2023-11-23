@@ -8,8 +8,8 @@ import javax.swing.JButton;
 import application.database.EntityDao;
 import application.interfaces.IAddFrame;
 
-public class AddEntity<T, E extends IAddFrame<T>> extends JButton {
-  public AddEntity(String name, Class<T> entityClass, E parentWindow) {
+public class AddEntity<T> extends JButton {
+  public AddEntity(String name, Class<T> entityClass, IAddFrame<T> parentWindow) {
     super(name);
     this.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
