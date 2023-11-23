@@ -14,4 +14,15 @@ public class ListHelper<T> {
     }
     return objects;
   }
+
+  public static boolean isAtList(List<String> list, String checkingObject) {
+    boolean flag = false;
+    for(String object: list) {
+      if(object.equals(checkingObject)) {
+        flag = true;
+        break;
+      }
+    }
+    return flag;
+  }
 }

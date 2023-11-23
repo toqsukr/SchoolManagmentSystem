@@ -14,10 +14,12 @@ import javax.swing.ListSelectionModel;
 import application.entities.Klass;
 import application.entities.Student;
 import application.graphic.ui.CheckBoxList;
+import application.graphic.ui.buttons.SaveEntityButton;
 import application.graphic.ui.frames.EditFrame;
 import application.graphic.ui.frames.EntityFrame;
+import application.interfaces.IAddFrame;
 
-public class EditStudentFrame extends EditFrame<Student> {
+public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<Student>  {
 
   private final JTextField inputNameField = new JTextField(20);
 
@@ -25,7 +27,7 @@ public class EditStudentFrame extends EditFrame<Student> {
 
   private final CheckBoxList<Klass> klassCheckBox;
 
-  private final JButton addBtn = new JButton("Сохранить");
+  private final SaveEntityButton<Student> saveBtn = new SaveEntityButton<>("Сохранить", Student.class, this);
 
   private final JButton cancelBtn = new JButton("Отмена");
 
@@ -34,12 +36,18 @@ public class EditStudentFrame extends EditFrame<Student> {
   private final JLabel surnameLabel = new JLabel("Фамилия:");
 
   private final JLabel klassLabel = new JLabel("Класс:");
-  public EditStudentFrame(EntityFrame<Student> parent, Student object) {
-    super(parent, object);
+
+  private EntityFrame<Student> parentWindow;
+
+  public EditStudentFrame(EntityFrame<Student> _parentWindow, Student object) {
+    super(_parentWindow, object);
+
+    parentWindow = _parentWindow;
+
     List<Klass> klasses = Klass.getEntityDao().getAll();
     klassCheckBox = new CheckBoxList<>(klasses, ListSelectionModel.SINGLE_SELECTION);
   
-    addBtn.setBackground(new Color(0xDFD9D9D9, false));
+    saveBtn.setBackground(new Color(0xDFD9D9D9, false));
     cancelBtn.setBackground(new Color(0xDFD9D9D9, false));
 
     JPanel panel = new JPanel();
@@ -55,7 +63,7 @@ public class EditStudentFrame extends EditFrame<Student> {
     panel.add(klassLabel);
     panel.add(klassCheckBox);
 
-    panel.add(addBtn);
+    panel.add(saveBtn);
     panel.add(cancelBtn);
     setObjectData();
 
@@ -66,5 +74,24 @@ public class EditStudentFrame extends EditFrame<Student> {
     inputNameField.setText(object.getName());
     inputSurnameField.setText(object.getSurname());
     klassCheckBox.fillCheckbox(object.getKlass());
+  }
+
+  public void clearFields() {
+    inputNameField.setText("");
+    inputSurnameField.setText("");
+    klassCheckBox.resetCheckBoxes();
+  }
+
+  public void closeOperation() {
+    parentWindow.setTable();
+    dispose();
+  }
+
+  public Student getObjectToAdd() {
+    object.setName(inputNameField.getText());
+    object.setSurname(inputSurnameField.getText());
+    object.setKlass(Klass.getEntityDao().findObject(klassCheckBox.getSelectedItems().get(0)));
+    
+    return object;
   }
 }
