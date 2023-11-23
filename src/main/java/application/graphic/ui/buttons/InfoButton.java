@@ -1,14 +1,15 @@
-package application.graphic.ui;
+package application.graphic.ui.buttons;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import application.graphic.InfoGUI;
-import application.interfaces.IEntityName;
+import application.entities.Person;
+import application.graphic.ui.frames.EntityFrame;
+import application.graphic.ui.frames.InfoGUI;
 
-public class InfoButton<T extends IEntityName, E extends InfoGUI<T>> extends OpenButton {
+public class InfoButton<T extends Person, E extends InfoGUI<T>> extends OpenButton {
   private E infoWindow = null;
 
   public InfoButton(EntityFrame<T> parent, Class<T> entityClass, Class<E> windowClass) {
@@ -16,7 +17,7 @@ public class InfoButton<T extends IEntityName, E extends InfoGUI<T>> extends Ope
 
     this.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          List<? extends IEntityName> selectedObjects = parent.getSelectedObjects();
+          List<? extends Person> selectedObjects = parent.getSelectedObjects();
           if (selectedObjects.size() == 1) {
               if(infoWindow == null || !infoWindow.isVisible())
                 try {

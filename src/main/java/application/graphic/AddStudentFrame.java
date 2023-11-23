@@ -15,11 +15,12 @@ import javax.swing.JTextField;
 
 import application.entities.Klass;
 import application.entities.Student;
-import application.graphic.ui.AddEntity;
 import application.graphic.ui.CheckBoxList;
+import application.graphic.ui.buttons.AddEntityButton;
+import application.graphic.ui.frames.AddFrame;
 import application.interfaces.IAddFrame;
 
-public class AddStudentGUI extends AddGUI implements IAddFrame<Student> {
+public class AddStudentFrame extends AddFrame implements IAddFrame<Student> {
 
   private final JTextField inputNameField = new JTextField(20);
 
@@ -27,7 +28,7 @@ public class AddStudentGUI extends AddGUI implements IAddFrame<Student> {
 
   private final CheckBoxList<Klass> klassCheckBox;
 
-  private final AddEntity<Student> addBtn = new AddEntity<>("Добавить", Student.class, this);
+  private final AddEntityButton<Student> addBtn = new AddEntityButton<>("Добавить", Student.class, this);
 
   private final JButton cancelBtn = new JButton("Отмена");
 
@@ -37,9 +38,9 @@ public class AddStudentGUI extends AddGUI implements IAddFrame<Student> {
 
   private final JLabel klassLabel = new JLabel("Класс:");
 
-  private final StudentGUI parent;
+  private final StudentFrame parent;
     
-  public AddStudentGUI(StudentGUI _parent) {
+  public AddStudentFrame(StudentFrame _parent) {
     super(_parent);
     parent = _parent;
 

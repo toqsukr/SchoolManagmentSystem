@@ -11,9 +11,9 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-import application.graphic.ui.MyFrame;
+import application.graphic.ui.frames.MyFrame;
 
-public class MainMenu extends MyFrame {
+public class MenuFrame extends MyFrame {
     private final JButton teacherBtn = new JButton("      Учителя   ");
 
     private final JButton studentBtn = new JButton("      Ученики   ");
@@ -22,14 +22,14 @@ public class MainMenu extends MyFrame {
 
     private JLabel title = new JLabel("Система управления школой");
 
-    private TeacherGUI teacherGUI;
+    private TeacherFrame teacherGUI;
 
-    private StudentGUI studentGUI;
+    private StudentFrame studentGUI;
 
-    public MainMenu() {
+    public MenuFrame() {
       super("Главное меню");
-      teacherGUI = new TeacherGUI(this);
-      studentGUI = new StudentGUI(this);
+      teacherGUI = new TeacherFrame(this);
+      studentGUI = new StudentFrame(this);
 
       this.addWindowListener((WindowListener) new WindowAdapter() {
         @Override

@@ -3,26 +3,26 @@ package application.graphic;
 import java.util.List;
 
 import application.entities.Student;
-import application.graphic.ui.AddButton;
-import application.graphic.ui.EntityFrame;
-import application.graphic.ui.InfoButton;
-import application.graphic.ui.MyFrame;
 import application.graphic.ui.MyTable;
+import application.graphic.ui.buttons.AddButton;
+import application.graphic.ui.buttons.InfoButton;
+import application.graphic.ui.frames.EntityFrame;
+import application.graphic.ui.frames.MyFrame;
 
 
-public class StudentGUI extends EntityFrame<Student> {
+public class StudentFrame extends EntityFrame<Student> {
 
-    private InfoButton<Student, InfoStudentGUI> infoBtn;
+    private InfoButton<Student, InfoStudentFrame> infoBtn;
 
     private AddButton addBtn;
 
-    private final AddStudentGUI addWindow = new AddStudentGUI(this);
+    private final AddStudentFrame addWindow = new AddStudentFrame(this);
 
-    public StudentGUI(MyFrame parent) {
+    public StudentFrame(MyFrame parent) {
         super("Список студентов", "Фамилия студента", new String[] {"ID", "Имя", "Фамилия", "Класс", "Успеваемость"}, Student.class, parent);
 
         addBtn = new AddButton(addWindow);
-        infoBtn = new InfoButton<>(this, Student.class, InfoStudentGUI.class);
+        infoBtn = new InfoButton<>(this, Student.class, InfoStudentFrame.class);
 
         toolBar.add(addBtn, 0);
         toolBar.add(infoBtn);

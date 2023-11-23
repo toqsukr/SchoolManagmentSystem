@@ -1,10 +1,10 @@
 package application;
-import application.graphic.MainMenu;
+import application.graphic.MenuFrame;
 
 public class App 
 {
 	public static void main( String[] args ) {
-		MainMenu mainMenu = new MainMenu();
+		MenuFrame mainMenu = new MenuFrame();
 		mainMenu.toggleVisible();
 	}
 }

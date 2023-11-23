@@ -1,4 +1,4 @@
-package application.graphic.ui;
+package application.graphic.ui.frames;
 
 import javax.swing.JFrame;
 

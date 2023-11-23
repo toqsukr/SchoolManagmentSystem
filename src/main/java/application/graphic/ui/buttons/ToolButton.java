@@ -1,4 +1,4 @@
-package application.graphic.ui;
+package application.graphic.ui.buttons;
 
 import java.awt.*;
 import java.net.URL;

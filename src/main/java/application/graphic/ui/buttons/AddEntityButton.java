@@ -1,4 +1,4 @@
-package application.graphic.ui;
+package application.graphic.ui.buttons;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,8 +8,8 @@ import javax.swing.JButton;
 import application.database.EntityDao;
 import application.interfaces.IAddFrame;
 
-public class AddEntity<T> extends JButton {
-  public AddEntity(String name, Class<T> entityClass, IAddFrame<T> parentWindow) {
+public class AddEntityButton<T> extends JButton {
+  public AddEntityButton(String name, Class<T> entityClass, IAddFrame<T> parentWindow) {
     super(name);
     this.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {

@@ -1,4 +1,4 @@
-package application.graphic.ui;
+package application.graphic.ui.frames;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,6 +18,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import application.graphic.ui.MyTable;
+import application.graphic.ui.ToolBar;
+import application.graphic.ui.buttons.DeleteEntityButton;
+import application.graphic.ui.buttons.ToolButton;
 import application.interfaces.IEntityFrame;
 import application.interfaces.IEntityName;
 import application.utils.ListHelper;
@@ -43,7 +47,7 @@ public abstract class EntityFrame<T extends IEntityName> extends ChildFrame impl
   /**
    * This button deletes selected field
    */
-  private DeleteEntity<T> deleteBtn;
+  private DeleteEntityButton<T> deleteBtn;
 
   /**
    * This button allows you to edit selected field
@@ -134,7 +138,7 @@ public abstract class EntityFrame<T extends IEntityName> extends ChildFrame impl
     filterPanel.add(clearInputBtn);
     filterPanel.add(disruptInputBtn);
 
-    deleteBtn = new DeleteEntity<>(entityClass, this);
+    deleteBtn = new DeleteEntityButton<>(entityClass, this);
     editBtn = new ToolButton("Редактировать", "images/edit.png");
     
     reportBtn = new ToolButton("Сделать отчет", "images/report.png");
