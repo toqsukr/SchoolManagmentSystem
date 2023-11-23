@@ -14,7 +14,7 @@ public class DeleteEntity<T> extends ToolButton  {
     super("Удалить", "images/remove.png");
     this.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        List<T> objects = parentWindow.getObjectsToDelete();
+        List<T> objects = parentWindow.getSelectedObjects();
         if(objects.size() > 0) {
           String message = "Вы действительно хотите удалить выбранную(ые) запись(и)?";
           int result = JOptionPane.showConfirmDialog(null,

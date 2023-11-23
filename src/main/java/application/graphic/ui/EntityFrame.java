@@ -96,8 +96,6 @@ public abstract class EntityFrame<T extends IEntityName> extends ChildFrame impl
 
   public Class<T> entityClass;
 
-  public abstract List<T> getObjectsToDelete();
-
   public EntityFrame(String frameName, String searchName, final String[] _columns, Class<T> _entityClass, MyFrame parent) {
     super(frameName, parent);
     this.setBounds(200, 150, 800, 600);

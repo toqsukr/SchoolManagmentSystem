@@ -15,7 +15,6 @@ public class InfoGUI<T extends IEntityName> extends ChildFrame {
     super(_object.getName(), _parentWindow);
     parentWindow = _parentWindow;
     object = _object;
-
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
   }
 

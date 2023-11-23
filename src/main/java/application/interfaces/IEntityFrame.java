@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface IEntityFrame<T> {
   public void setTable();
-  public List<T> getObjectsToDelete();
+  public List<T> getSelectedObjects();
 }
