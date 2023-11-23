@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 
 import application.entities.Klass;
 import application.entities.Student;
@@ -36,7 +37,7 @@ public class EditStudentFrame extends EditFrame<Student> {
   public EditStudentFrame(EntityFrame<Student> parent, Student object) {
     super(parent, object);
     List<Klass> klasses = Klass.getEntityDao().getAll();
-    klassCheckBox = new CheckBoxList<>(klasses);
+    klassCheckBox = new CheckBoxList<>(klasses, ListSelectionModel.SINGLE_SELECTION);
   
     addBtn.setBackground(new Color(0xDFD9D9D9, false));
     cancelBtn.setBackground(new Color(0xDFD9D9D9, false));

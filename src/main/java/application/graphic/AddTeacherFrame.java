@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 
 import application.entities.Klass;
 import application.entities.Subject;
@@ -58,10 +59,10 @@ public class AddTeacherFrame extends AddFrame implements IAddFrame<Teacher> {
     });
 
     List<Subject> subjects = Subject.getEntityDao().getAll();
-    subjectCheckBox = new CheckBoxList<>(subjects);
+    subjectCheckBox = new CheckBoxList<>(subjects, ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
     List<Klass> klasses = Klass.getEntityDao().getAll();
-    klassCheckBox = new CheckBoxList<>(klasses);
+    klassCheckBox = new CheckBoxList<>(klasses, ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
   
     subjectCheckBox.setBackground(new Color(0xFFFFFF, false));
     subjectCheckBox.setFocusable(false);

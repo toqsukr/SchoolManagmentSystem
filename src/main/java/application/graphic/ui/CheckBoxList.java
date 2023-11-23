@@ -10,7 +10,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
-import javax.swing.ListSelectionModel;
 
 import application.interfaces.IEntityName;
 
@@ -18,7 +17,7 @@ public class CheckBoxList<T extends IEntityName> extends JPanel {
     private DefaultListModel<String> listModel;
     private JList<String> checkBoxList;
 
-    public CheckBoxList(List<T> list) {
+    public CheckBoxList(List<T> list, int selectionMode) {
         setLayout(new BorderLayout());
 
         listModel = new DefaultListModel<>();
@@ -29,7 +28,7 @@ public class CheckBoxList<T extends IEntityName> extends JPanel {
 
         checkBoxList = new JList<>(listModel);
         checkBoxList.setCellRenderer(new CheckBoxListCellRenderer());
-        checkBoxList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        checkBoxList.setSelectionMode(selectionMode);
 
         JScrollPane scrollPane = new JScrollPane(checkBoxList);
         add(scrollPane, BorderLayout.CENTER);
