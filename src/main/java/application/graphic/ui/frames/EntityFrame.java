@@ -52,7 +52,7 @@ public abstract class EntityFrame<T extends IEntityName> extends ChildFrame impl
   /**
    * This button allows you to edit selected field
    */
-  private ToolButton editBtn;
+  protected ToolButton editBtn;
 
   /**
    * This button forms report
