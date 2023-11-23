@@ -67,5 +67,4 @@ public class Teacher extends Person implements IEntityDao<Teacher> {
 	public List<Klass> getKlasses() {
 		return klasses;
 	}
-		
 }

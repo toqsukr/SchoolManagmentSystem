@@ -49,7 +49,7 @@ public class Student extends Person implements IEntityDao<Student> {
 		klass = _klass;
 	}
 	
-	@OneToMany(mappedBy = "progressID.student")
+	@OneToMany(mappedBy = "progressID.student", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Progress> progress = new ArrayList<>();
 
 	public List<Progress> getProgress() {

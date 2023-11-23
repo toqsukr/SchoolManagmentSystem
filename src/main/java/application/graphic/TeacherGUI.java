@@ -18,15 +18,13 @@ public class TeacherGUI extends EntityFrame<Teacher> {
     
     private AddButton addBtn;
     
-    private final InfoGUI infoWindow = new InfoGUI(this);
-
     private final AddTeacherGUI addWindow = new AddTeacherGUI(this);
     
     public TeacherGUI(MyFrame parent) {
         super("Список учителей", "Фамилия учителя", new String[] {"ID", "Имя", "Фамилия"}, Teacher.class, parent);
 
         addBtn = new AddButton(addWindow);
-        infoBtn = new InfoButton(infoWindow);
+        infoBtn = new InfoButton(this);
         toolBar.add(addBtn, 0);
         toolBar.add(infoBtn);
         setTable();

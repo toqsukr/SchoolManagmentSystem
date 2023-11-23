@@ -2,13 +2,17 @@ package application.graphic;
 
 import application.graphic.ui.ChildFrame;
 import application.graphic.ui.EntityFrame;
+import application.interfaces.IEntityName;
 
-public class InfoGUI extends ChildFrame {
+public class InfoGUI<T extends IEntityName> extends ChildFrame {
   private EntityFrame<?> parentWindow;
 
-  public InfoGUI(EntityFrame<?> _parentWindow) {
-    super("Информация", _parentWindow);
+  private T object;
+
+  public InfoGUI(EntityFrame<?> _parentWindow, T _object) {
+    super(_object.getName(), _parentWindow);
     parentWindow = _parentWindow;
+    object = _object;
   }
 
   @Override

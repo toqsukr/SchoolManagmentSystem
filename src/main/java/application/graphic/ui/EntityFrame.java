@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.awt.Container;
@@ -18,10 +19,12 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import application.interfaces.IEntityFrame;
+import application.interfaces.IEntityName;
+import application.utils.ListHelper;
 import application.utils.ReportManager;
 
 
-public abstract class EntityFrame<T> extends ChildFrame implements IEntityFrame<T> {
+public abstract class EntityFrame<T extends IEntityName> extends ChildFrame implements IEntityFrame<T> {
   /**
    * This button performs a search
    */
@@ -91,12 +94,15 @@ public abstract class EntityFrame<T> extends ChildFrame implements IEntityFrame<
 
   public abstract void setTable();
 
+  public Class<T> entityClass;
+
   public abstract List<T> getObjectsToDelete();
 
-  public EntityFrame(String frameName, String searchName, final String[] _columns, Class<T> entityClass, MyFrame parent) {
+  public EntityFrame(String frameName, String searchName, final String[] _columns, Class<T> _entityClass, MyFrame parent) {
     super(frameName, parent);
     this.setBounds(200, 150, 800, 600);
     this.setResizable(false);
+    entityClass = _entityClass;
     columns = _columns; 
     defaultTable = new DefaultTableModel(data, columns);
 
@@ -145,6 +151,16 @@ public abstract class EntityFrame<T> extends ChildFrame implements IEntityFrame<
     container.add(scroll, BorderLayout.CENTER);
     container.add(filterPanel, BorderLayout.SOUTH);
   }
+
+    public List<T> getSelectedObjects() {
+        int[] selectedIndexes = table.getSelectedRows();
+        List<String> stringObjects = new ArrayList<>();
+        for(int index: selectedIndexes) {
+            stringObjects.add(defaultTable.getValueAt(index, 0).toString());
+        }
+        ListHelper<T> helper = new ListHelper<>();
+        return helper.getSelectedList(stringObjects, entityClass);
+    }
 
     private class ReportEventListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
