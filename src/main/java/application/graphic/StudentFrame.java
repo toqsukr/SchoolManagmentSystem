@@ -1,6 +1,14 @@
 package application.graphic;
 
+import java.awt.Color;
+import java.awt.Insets;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
 
 import application.entities.Student;
 import application.graphic.ui.MyTable;
@@ -21,8 +29,46 @@ public class StudentFrame extends EntityFrame<Student> {
 
     private final AddStudentFrame addWindow = new AddStudentFrame(this);
 
+    /**
+     * This button performs a search
+     */
+    private JButton searchBtn = new JButton("Искать");
+
+    /**
+     * This button performs a clear search inputs
+     */
+    private JButton clearInputBtn = new JButton("Очистить");
+
+    /**
+     * This button performs a disrupt values of search inputs
+     */
+    private JButton disruptInputBtn = new JButton("Сбросить фильтр");
+
+    private JTextField searchNameField;
+
+    private JComboBox<String> comboSearchKlass = new JComboBox<>();
+
     public StudentFrame(MyFrame parent) {
-        super("Список студентов", "Фамилия студента", new String[] {"ID", "Имя", "Фамилия", "Класс", "Успеваемость"}, Student.class, parent);
+
+        super("Список студентов", new String[] {"ID", "Имя", "Фамилия", "Класс", "Успеваемость"}, Student.class, parent);
+
+        searchBtn.setBackground(new Color(0xDFD9D9D9, false));
+        clearInputBtn.setBackground(new Color(0xDFD9D9D9, false));
+        disruptInputBtn.setBackground(new Color(0xDFD9D9D9, false));
+
+        searchNameField = new JTextField("Фамилия студента", 12);
+        searchNameField.addFocusListener(new InputFocusListener());
+        searchNameField.setMargin(new Insets(2, 2, 3, 0));
+    
+        searchBtn.setMargin(new Insets(1, 6, 1, 6));
+        disruptInputBtn.setMargin(new Insets(1, 6, 1, 6));    
+        clearInputBtn.setMargin(new Insets(1, 6, 1, 6));
+    
+        filterPanel.add(searchNameField);
+        filterPanel.add(comboSearchKlass);
+        filterPanel.add(searchBtn);
+        filterPanel.add(clearInputBtn);
+        filterPanel.add(disruptInputBtn);
 
         addBtn = new AddOpenButton(addWindow);
         infoBtn = new InfoOpenButton<>(this, Student.class, InfoStudentFrame.class);
@@ -42,6 +88,22 @@ public class StudentFrame extends EntityFrame<Student> {
         for (Student student : students) {
             defaultTable.addRow(
                     new String[] { student.getStudentID().toString(), student.getName(), student.getSurname(), student.getKlass().getName(), student.determineStudentStatus()});
+        }
+    }
+
+    public static void setInput(JTextField input, String text) {
+        input.setText(text);
+    }
+
+    public class InputFocusListener implements FocusListener {
+        public void focusGained(FocusEvent e) {
+            if (searchNameField.getText().equals("Фамилия студента"))
+                setInput(searchNameField, "");
+        }
+
+        public void focusLost(FocusEvent e) {
+            if (searchNameField.getText().equals(""))
+                setInput(searchNameField, "Фамилия студента");
         }
     }
 }

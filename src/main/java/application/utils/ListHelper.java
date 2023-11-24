@@ -6,7 +6,7 @@ import java.util.List;
 import application.database.EntityDao;
 import application.interfaces.IEntityName;
 
-public class ListHelper<T extends IEntityName> {
+public class ListHelper<T> {
   public List<T> getSelectedList(List<String> strings, Class<T> entityClass) {
     List<T> objects = new ArrayList<>();
     for(String string: strings) {
@@ -16,18 +16,7 @@ public class ListHelper<T extends IEntityName> {
     return objects;
   }
 
-  public boolean isAtList(List<T> list, String checkingObject) {
-    boolean flag = false;
-    for(T object: list) {
-      if(object.getName().equals(checkingObject)) {
-        flag = true;
-        break;
-      }
-    }
-    return flag;
-  }
-
-  public boolean isAtList(List<String> list, T checkingObject) {
+  public static <E extends IEntityName> boolean isAtList(List<String> list, E checkingObject) {
     boolean flag = false;
     for(String object: list) {
       if(object.equals(checkingObject.getName())) {

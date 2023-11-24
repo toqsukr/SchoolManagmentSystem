@@ -12,7 +12,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "klass")
-public class Klass implements IEntityName, IEntityDao<Klass> {
+public class Klass implements IEntityName, IEntityDao {
 
 	public Klass() {};
 	

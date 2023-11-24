@@ -22,7 +22,7 @@ public class TeacherFrame extends EntityFrame<Teacher> {
     private final AddTeacherFrame addWindow = new AddTeacherFrame(this);
     
     public TeacherFrame(MyFrame parent) {
-        super("Список учителей", "Фамилия учителя", new String[] {"ID", "Имя", "Фамилия"}, Teacher.class, parent);
+        super("Список учителей", new String[] {"ID", "Имя", "Фамилия"}, Teacher.class, parent);
 
         addBtn = new AddOpenButton(addWindow);
         infoBtn = new InfoOpenButton<>(this, Teacher.class, InfoTeacherFrame.class);

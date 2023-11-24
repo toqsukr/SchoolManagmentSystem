@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "subject")
-public class Subject implements IEntityName, IEntityDao<Subject> {
+public class Subject implements IEntityName, IEntityDao {
 
 	public Subject() {};
 

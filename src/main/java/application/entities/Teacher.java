@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "teacher")
-public class Teacher extends Person implements IEntityDao<Teacher> {
+public class Teacher extends Person implements IEntityDao {
 
 	public Teacher() {};
 

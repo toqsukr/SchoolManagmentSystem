@@ -104,12 +104,11 @@ public class EditTeacherFrame extends EditFrame<Teacher> implements IAddFrame<Te
 
   private void updateSubjects() {
     List<String> selectedList = subjectCheckBox.getSelectedItems();
-    ListHelper<Subject> helper = new ListHelper<>();
     List<Subject> allSubjects = Subject.getEntityDao().getAll();
     for(Subject subject: allSubjects) {
-      if(helper.isAtList(selectedList, subject) && !object.isAtSubjects(subject)) {
+      if(ListHelper.isAtList(selectedList, subject) && !object.isAtSubjects(subject)) {
         object.appendSubject(subject);
-      } else if(!helper.isAtList(selectedList, subject) && object.isAtSubjects(subject)) {
+      } else if(!ListHelper.isAtList(selectedList, subject) && object.isAtSubjects(subject)) {
         object.deleteSubject(subject);
       }
     }
@@ -117,12 +116,11 @@ public class EditTeacherFrame extends EditFrame<Teacher> implements IAddFrame<Te
 
   private void updateKlasses() {
     List<String> selectedList = klassCheckBox.getSelectedItems();
-    ListHelper<Klass> helper = new ListHelper<>();
     List<Klass> allKlass = Klass.getEntityDao().getAll();
     for(Klass klass: allKlass) {
-      if(helper.isAtList(selectedList, klass) && !object.isAtKlasses(klass)) {
+      if(ListHelper.isAtList(selectedList, klass) && !object.isAtKlasses(klass)) {
         object.appendKlass(klass);
-      } else if(!helper.isAtList(selectedList, klass) && object.isAtKlasses(klass)) {
+      } else if(!ListHelper.isAtList(selectedList, klass) && object.isAtKlasses(klass)) {
         object.deleteKlass(klass);
       }
     }

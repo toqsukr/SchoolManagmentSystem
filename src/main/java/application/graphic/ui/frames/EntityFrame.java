@@ -1,8 +1,6 @@
 package application.graphic.ui.frames;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -10,12 +8,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.awt.Container;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import application.entities.Person;
@@ -29,20 +24,6 @@ import application.utils.ReportManager;
 
 
 public abstract class EntityFrame<T extends Person> extends ChildFrame implements IEntityFrame<T> {
-  /**
-   * This button performs a search
-   */
-  private JButton searchBtn = new JButton("Искать");
-
-  /**
-   * This button performs a clear search inputs
-   */
-  private JButton clearInputBtn = new JButton("Очистить");
-
-  /**
-   * This button performs a disrupt values of search inputs
-   */
-  private JButton disruptInputBtn = new JButton("Сбросить фильтр");
 
   /**
    * This button deletes selected field
@@ -53,10 +34,6 @@ public abstract class EntityFrame<T extends Person> extends ChildFrame implement
    * This button forms report
    */
   private ToolButton reportBtn;
-
-  private JTextField searchNameField;
-
-  private JComboBox<String> comboSearchKlass = new JComboBox<>();
 
   protected final ToolBar toolBar = new ToolBar();
 
@@ -85,16 +62,13 @@ public abstract class EntityFrame<T extends Person> extends ChildFrame implement
    */
   private final JScrollPane scroll;
 
-  /**
-   * This panel store 2 inputs and search button
-   */
-  private final JPanel filterPanel = new JPanel();
+  protected final JPanel filterPanel = new JPanel();
 
   public abstract void setTable();
 
   public Class<T> entityClass;
 
-  public EntityFrame(String frameName, String searchName, final String[] _columns, Class<T> _entityClass, MyFrame parent) {
+  public EntityFrame(String frameName, final String[] _columns, Class<T> _entityClass, MyFrame parent) {
     super(frameName, parent);
     this.setBounds(200, 150, 800, 600);
     this.setResizable(false);
@@ -111,26 +85,6 @@ public abstract class EntityFrame<T extends Person> extends ChildFrame implement
     Container container = this.getContentPane();
     container.setLayout(new BorderLayout());
 
-    searchBtn.setBackground(new Color(0xDFD9D9D9, false));
-    clearInputBtn.setBackground(new Color(0xDFD9D9D9, false));
-    disruptInputBtn.setBackground(new Color(0xDFD9D9D9, false));
-
-
-    searchNameField = new JTextField(searchName, 15);
-
-    searchNameField.setMargin(new Insets(2, 2, 3, 0));
-
-    searchBtn.setMargin(new Insets(1, 6, 1, 6));
-
-    disruptInputBtn.setMargin(new Insets(1, 6, 1, 6));
-
-    clearInputBtn.setMargin(new Insets(1, 6, 1, 6));
-
-    filterPanel.add(searchNameField);
-    filterPanel.add(comboSearchKlass);
-    filterPanel.add(searchBtn);
-    filterPanel.add(clearInputBtn);
-    filterPanel.add(disruptInputBtn);
 
     deleteBtn = new DeleteEntityButton<>(entityClass, this);
     
