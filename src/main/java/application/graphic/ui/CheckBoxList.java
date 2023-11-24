@@ -62,7 +62,6 @@ public class CheckBoxList<T extends IEntityName> extends JPanel {
 
     private void setItemChecked(int index, boolean checked) {
         if (index >= 0 && index < listModel.size()) {
-            checkBoxList.getSelectionModel().removeSelectionInterval(index, index);
             if (checked) {
                 checkBoxList.addSelectionInterval(index, index);
             }

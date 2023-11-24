@@ -55,6 +55,14 @@ public class Teacher extends Person implements IEntityDao<Teacher> {
 		subjects.add(subject);
 	}
 
+	public void deleteSubject(Subject subject) {
+		subjects.remove(subjects.indexOf(subject));
+	}
+
+	public boolean isAtSubjects(Subject subject) {
+		return subjects.indexOf(subject) != -1;
+	}
+
 	@ManyToMany
 	@JoinTable(
 			name = "klass_has_teacher",
@@ -70,5 +78,13 @@ public class Teacher extends Person implements IEntityDao<Teacher> {
 
 	public void appendKlass(Klass klass) {
 		klasses.add(klass);
+	}
+
+	public void deleteKlass(Klass klass) {
+		klasses.remove(klasses.indexOf(klass));
+	}
+
+	public boolean isAtKlasses(Klass klass) {
+		return klasses.indexOf(klass) != -1;
 	}
 }

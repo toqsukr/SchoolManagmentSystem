@@ -22,7 +22,6 @@ public class Subject implements IEntityName, IEntityDao<Subject> {
 	public static EntityDao<Subject> getEntityDao() {
 		return em;
 	}
-
 	
 	public Class<Subject> getEntityClass() {
 		return Subject.class;

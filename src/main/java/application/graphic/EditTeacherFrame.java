@@ -104,15 +104,27 @@ public class EditTeacherFrame extends EditFrame<Teacher> implements IAddFrame<Te
 
   private void updateSubjects() {
     List<String> selectedList = subjectCheckBox.getSelectedItems();
-    for(String name: subjectCheckBox.getSelectedItems()) {
-      if(!ListHelper.isAtList(selectedList, name)) object.appendSubject(Subject.getEntityDao().findObject(name));
+    ListHelper<Subject> helper = new ListHelper<>();
+    List<Subject> allSubjects = Subject.getEntityDao().getAll();
+    for(Subject subject: allSubjects) {
+      if(helper.isAtList(selectedList, subject) && !object.isAtSubjects(subject)) {
+        object.appendSubject(subject);
+      } else if(!helper.isAtList(selectedList, subject) && object.isAtSubjects(subject)) {
+        object.deleteSubject(subject);
+      }
     }
   }
 
   private void updateKlasses() {
     List<String> selectedList = klassCheckBox.getSelectedItems();
-    for(String name: selectedList) {
-      if(!ListHelper.isAtList(selectedList, name)) object.appendKlass(Klass.getEntityDao().findObject(name));
+    ListHelper<Klass> helper = new ListHelper<>();
+    List<Klass> allKlass = Klass.getEntityDao().getAll();
+    for(Klass klass: allKlass) {
+      if(helper.isAtList(selectedList, klass) && !object.isAtKlasses(klass)) {
+        object.appendKlass(klass);
+      } else if(!helper.isAtList(selectedList, klass) && object.isAtKlasses(klass)) {
+        object.deleteKlass(klass);
+      }
     }
   }
 
