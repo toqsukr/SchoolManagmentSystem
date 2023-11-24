@@ -10,13 +10,13 @@ public class MyTable extends JTable {
 
     public MyTable(DefaultTableModel defaultTable) {
         super(defaultTable);
+
         setDefaultRenderer(Object.class, new CustomCellRenderer());
     }
 
-    private boolean editingPermit = false;
-
-    public boolean getEditingPermit() {
-        return editingPermit;
+    @Override
+    public boolean isCellEditable(int i, int j) {
+        return false;
     }
 
     public static void clearTable(DefaultTableModel table) {
@@ -32,7 +32,6 @@ public class MyTable extends JTable {
                                                        boolean hasFocus, int row, int column) {
             Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-            // Установка размера ячейки (ширина и высота)
             table.setRowHeight(row, 25); // Установка высоты
             table.getColumnModel().getColumn(column).setPreferredWidth(50); // Установка ширины
 

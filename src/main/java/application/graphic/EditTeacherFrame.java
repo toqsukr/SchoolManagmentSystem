@@ -2,6 +2,8 @@ package application.graphic;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -59,6 +61,12 @@ public class EditTeacherFrame extends EditFrame<Teacher> implements IAddFrame<Te
     subjectCheckBox.setFocusable(false);
     saveBtn.setBackground(new Color(0xDFD9D9D9, false));
     cancelBtn.setBackground(new Color(0xDFD9D9D9, false));
+
+    cancelBtn.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        closeOperation();
+      }
+    });
 
     JPanel panel = new JPanel();
     panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
