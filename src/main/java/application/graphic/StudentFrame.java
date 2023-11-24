@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
+import application.entities.Klass;
 import application.entities.Student;
 import application.graphic.ui.MyTable;
 import application.graphic.ui.buttons.AddOpenButton;
@@ -47,6 +48,8 @@ public class StudentFrame extends EntityFrame<Student> {
     private JTextField searchNameField;
 
     private JComboBox<String> comboSearchKlass = new JComboBox<>();
+    private JComboBox<String> comboSearchStatus = new JComboBox<>();
+
 
     public StudentFrame(MyFrame parent) {
 
@@ -66,9 +69,13 @@ public class StudentFrame extends EntityFrame<Student> {
     
         filterPanel.add(searchNameField);
         filterPanel.add(comboSearchKlass);
+        filterPanel.add(comboSearchStatus);
         filterPanel.add(searchBtn);
         filterPanel.add(clearInputBtn);
         filterPanel.add(disruptInputBtn);
+
+        setComboKlass();
+        setComboStatus();
 
         addBtn = new AddOpenButton(addWindow);
         infoBtn = new InfoOpenButton<>(this, Student.class, InfoStudentFrame.class);
@@ -78,6 +85,23 @@ public class StudentFrame extends EntityFrame<Student> {
         toolBar.add(editBtn, 2);
         toolBar.add(infoBtn);
         setTable();
+    }
+
+    public void setComboKlass() {
+        comboSearchKlass.removeAllItems();
+        List<Klass> klasses = Klass.getEntityDao().getAll();
+        comboSearchKlass.addItem("Все");
+        for(Klass klass: klasses) {
+            comboSearchKlass.addItem(klass.getName());
+        }
+    }
+
+    private void setComboStatus() {
+        comboSearchStatus.addItem("Все");
+        comboSearchStatus.addItem("Двоечник");
+        comboSearchStatus.addItem("Троечник");
+        comboSearchStatus.addItem("Хорошист");
+        comboSearchStatus.addItem("Отличник");
     }
 
     public void setTable() {
