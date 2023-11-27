@@ -2,6 +2,8 @@ package application.graphic;
 
 import java.awt.Color;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.List;
@@ -66,6 +68,8 @@ public class StudentFrame extends EntityFrame<Student> {
         searchBtn.setMargin(new Insets(1, 6, 1, 6));
         disruptInputBtn.setMargin(new Insets(1, 6, 1, 6));    
         clearInputBtn.setMargin(new Insets(1, 6, 1, 6));
+
+        disruptInputBtn.addActionListener(new DisruptEventListener());
     
         filterPanel.add(searchNameField);
         filterPanel.add(comboSearchKlass);
@@ -88,20 +92,24 @@ public class StudentFrame extends EntityFrame<Student> {
     }
 
     public void setComboKlass() {
-        comboSearchKlass.removeAllItems();
+        clearCombo(comboSearchKlass);
         List<Klass> klasses = Klass.getEntityDao().getAll();
-        comboSearchKlass.addItem("Все");
         for(Klass klass: klasses) {
             comboSearchKlass.addItem(klass.getName());
         }
     }
 
     private void setComboStatus() {
-        comboSearchStatus.addItem("Все");
+        clearCombo(comboSearchStatus);
         comboSearchStatus.addItem("Двоечник");
         comboSearchStatus.addItem("Троечник");
         comboSearchStatus.addItem("Хорошист");
         comboSearchStatus.addItem("Отличник");
+    }
+
+    private void clearCombo(JComboBox<String> combo) {
+        combo.removeAllItems();
+        combo.addItem("Все");
     }
 
     public void setTable() {
@@ -128,6 +136,14 @@ public class StudentFrame extends EntityFrame<Student> {
         public void focusLost(FocusEvent e) {
             if (searchNameField.getText().equals(""))
                 setInput(searchNameField, "Фамилия студента");
+        }
+    }
+
+    public class DisruptEventListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            setInput(searchNameField, "Фамилия студента");
+            comboSearchKlass.setSelectedIndex(0);
+            comboSearchStatus.setSelectedIndex(0);
         }
     }
 }

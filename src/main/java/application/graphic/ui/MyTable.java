@@ -10,7 +10,6 @@ public class MyTable extends JTable {
 
     public MyTable(DefaultTableModel defaultTable) {
         super(defaultTable);
-
         setDefaultRenderer(Object.class, new CustomCellRenderer());
     }
 
