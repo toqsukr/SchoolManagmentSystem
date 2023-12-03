@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,7 +153,18 @@ public class StudentFrame extends EntityFrame<Student> {
             if(!comboSearchKlass.getSelectedItem().toString().equals("Все")) {
                 params.put("klass", comboSearchKlass.getSelectedItem());
             } else params.put("klass", "%");
-            setTable(Student.getEntityDao().getWithParams(query, params));
+
+            String selectedStatus = comboSearchStatus.getSelectedItem().toString();
+            List<Student> paramStudents = Student.getEntityDao().getWithParams(query, params);
+            List<Student> filteredStudents = selectedStatus.equals("Все") ? paramStudents : new ArrayList<>();
+            if(!selectedStatus.equals("Все")) {
+                for(Student student: paramStudents) {
+                    if(student.determineStudentStatus().equals(selectedStatus)) {
+                        filteredStudents.add(student);
+                    }
+                }
+            }
+            setTable(filteredStudents);
         }
     }
 
