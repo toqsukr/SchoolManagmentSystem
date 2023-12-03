@@ -91,7 +91,7 @@ public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<St
   }
 
   public void closeOperation() {
-    parentWindow.setTable();
+    parentWindow.initTable();
     dispose();
   }
 

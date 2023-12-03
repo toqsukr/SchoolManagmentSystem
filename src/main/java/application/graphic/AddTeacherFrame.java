@@ -99,7 +99,7 @@ public class AddTeacherFrame extends AddFrame implements IAddFrame<Teacher> {
   }
 
   public void closeOperation() {
-    parent.setTable();
+    parent.initTable();
     dispose();
   }
 

@@ -27,7 +27,7 @@ public class DeleteEntityButton<T> extends ToolButton  {
             for(T object: objects) {
               dao.deleteObject(object);
             }
-            parentWindow.setTable();
+            parentWindow.initTable();
           }
         }
       }

@@ -84,7 +84,7 @@ public class AddStudentFrame extends AddFrame implements IAddFrame<Student> {
   }
 
   public void closeOperation() {
-    parent.setTable();
+    parent.initTable();
     dispose();
   }
 

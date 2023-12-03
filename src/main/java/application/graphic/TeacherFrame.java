@@ -30,10 +30,10 @@ public class TeacherFrame extends EntityFrame<Teacher> {
         toolBar.add(addBtn, 0);
         toolBar.add(editBtn, 2);
         toolBar.add(infoBtn);
-        setTable();
+        initTable();
     }
 
-    public void setTable() {
+    public void initTable() {
         if (defaultTable.getRowCount() != 0)
             MyTable.clearTable(defaultTable);
         List<Teacher> teachers = Teacher.getEntityDao().getAll();

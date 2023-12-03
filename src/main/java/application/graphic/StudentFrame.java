@@ -6,7 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -38,11 +40,6 @@ public class StudentFrame extends EntityFrame<Student> {
     private JButton searchBtn = new JButton("Искать");
 
     /**
-     * This button performs a clear search inputs
-     */
-    private JButton clearInputBtn = new JButton("Очистить");
-
-    /**
      * This button performs a disrupt values of search inputs
      */
     private JButton disruptInputBtn = new JButton("Сбросить фильтр");
@@ -58,7 +55,6 @@ public class StudentFrame extends EntityFrame<Student> {
         super("Список студентов", new String[] {"ID", "Имя", "Фамилия", "Класс", "Успеваемость"}, Student.class, parent);
 
         searchBtn.setBackground(new Color(0xDFD9D9D9, false));
-        clearInputBtn.setBackground(new Color(0xDFD9D9D9, false));
         disruptInputBtn.setBackground(new Color(0xDFD9D9D9, false));
 
         searchNameField = new JTextField("Фамилия студента", 12);
@@ -67,15 +63,14 @@ public class StudentFrame extends EntityFrame<Student> {
     
         searchBtn.setMargin(new Insets(1, 6, 1, 6));
         disruptInputBtn.setMargin(new Insets(1, 6, 1, 6));    
-        clearInputBtn.setMargin(new Insets(1, 6, 1, 6));
 
         disruptInputBtn.addActionListener(new DisruptEventListener());
+        searchBtn.addActionListener(new SearchEventListener());
     
         filterPanel.add(searchNameField);
         filterPanel.add(comboSearchKlass);
         filterPanel.add(comboSearchStatus);
         filterPanel.add(searchBtn);
-        filterPanel.add(clearInputBtn);
         filterPanel.add(disruptInputBtn);
 
         setComboKlass();
@@ -88,7 +83,7 @@ public class StudentFrame extends EntityFrame<Student> {
         toolBar.add(addBtn, 0);
         toolBar.add(editBtn, 2);
         toolBar.add(infoBtn);
-        setTable();
+        initTable();
     }
 
     public void setComboKlass() {
@@ -112,11 +107,14 @@ public class StudentFrame extends EntityFrame<Student> {
         combo.addItem("Все");
     }
 
-    public void setTable() {
+    public void initTable() {
+        List<Student> students = Student.getEntityDao().getAll();
+        setTable(students);
+    }
+
+    public void setTable(List<Student> students) {
         if (defaultTable.getRowCount() != 0)
             MyTable.clearTable(defaultTable);
-        List<Student> students = Student.getEntityDao().getAll();
-
         for (Student student : students) {
             defaultTable.addRow(
                     new String[] { student.getStudentID().toString(), student.getName(), student.getSurname(), student.getKlass().getName(), student.determineStudentStatus()});
@@ -136,6 +134,20 @@ public class StudentFrame extends EntityFrame<Student> {
         public void focusLost(FocusEvent e) {
             if (searchNameField.getText().equals(""))
                 setInput(searchNameField, "Фамилия студента");
+        }
+    }
+
+    public class SearchEventListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            String query = "from Student s where s.surname LIKE :surname AND s.klass.name LIKE :klass";
+            Map<String, Object> params = new HashMap<>();
+            if(!searchNameField.getText().equals("Фамилия студента")) {
+                params.put("surname", searchNameField.getText());
+            } else params.put("surname", "%");
+            if(!comboSearchKlass.getSelectedItem().toString().equals("Все")) {
+                params.put("klass", comboSearchKlass.getSelectedItem());
+            } else params.put("klass", "%");
+            setTable(Student.getEntityDao().getWithParams(query, params));
         }
     }
 

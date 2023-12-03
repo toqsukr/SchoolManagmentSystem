@@ -1,6 +1,7 @@
 package application.database;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
@@ -9,6 +10,7 @@ import org.hibernate.HibernateException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
 
 public class EntityDao<T> {
     private Class<T> entityClass;
@@ -91,6 +93,26 @@ public class EntityDao<T> {
         } catch (HibernateException exception) {
             JOptionPane.showMessageDialog(null, exception.getMessage());
             em.getTransaction().rollback();
+        }
+    }
+
+    public List<T> getWithParams(String hql, Map<String, Object> params) {
+        try {
+            em.getTransaction().begin();
+            TypedQuery<T> query = em.createQuery(hql, entityClass);
+    
+            // Устанавливаем параметры запроса из Map
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                query.setParameter(entry.getKey(), entry.getValue());
+            }
+    
+            List<T> filteredList = query.getResultList();
+            em.getTransaction().commit();
+            return filteredList;
+        } catch (HibernateException exception) {
+            JOptionPane.showMessageDialog(null, exception.getMessage());
+            em.getTransaction().rollback();
+            return null;
         }
     }
 }

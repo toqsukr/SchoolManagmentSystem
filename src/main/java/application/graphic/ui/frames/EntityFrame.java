@@ -64,7 +64,7 @@ public abstract class EntityFrame<T extends Person> extends ChildFrame implement
 
   protected final JPanel filterPanel = new JPanel();
 
-  public abstract void setTable();
+  public abstract void initTable();
 
   public Class<T> entityClass;
 

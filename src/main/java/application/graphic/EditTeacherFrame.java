@@ -106,7 +106,7 @@ public class EditTeacherFrame extends EditFrame<Teacher> implements IAddFrame<Te
   }
 
   public void closeOperation() {
-    parentWindow.setTable();
+    parentWindow.initTable();
     dispose();
   }
 
