@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import application.entities.Klass;
@@ -46,6 +47,8 @@ public class StudentFrame extends EntityFrame<Student> {
 
     private JTextField searchNameField;
 
+    private JLabel fieldNumber = new JLabel();
+
     private JComboBox<String> comboSearchKlass = new JComboBox<>();
     private JComboBox<String> comboSearchStatus = new JComboBox<>();
 
@@ -62,7 +65,7 @@ public class StudentFrame extends EntityFrame<Student> {
         searchNameField.setMargin(new Insets(2, 2, 3, 0));
     
         searchBtn.setMargin(new Insets(1, 6, 1, 6));
-        disruptInputBtn.setMargin(new Insets(1, 6, 1, 6));    
+        disruptInputBtn.setMargin(new Insets(1, 6, 1, 20));    
 
         disruptInputBtn.addActionListener(new DisruptEventListener());
         searchBtn.addActionListener(new SearchEventListener());
@@ -72,6 +75,7 @@ public class StudentFrame extends EntityFrame<Student> {
         filterPanel.add(comboSearchStatus);
         filterPanel.add(searchBtn);
         filterPanel.add(disruptInputBtn);
+        filterPanel.add(fieldNumber);
 
         setComboKlass();
         setComboStatus();
@@ -119,6 +123,7 @@ public class StudentFrame extends EntityFrame<Student> {
             defaultTable.addRow(
                     new String[] { student.getStudentID().toString(), student.getName(), student.getSurname(), student.getKlass().getName(), student.determineStudentStatus()});
         }
+        fieldNumber.setText("Количество строк: " + students.size());
     }
 
     public static void setInput(JTextField input, String text) {
@@ -142,7 +147,7 @@ public class StudentFrame extends EntityFrame<Student> {
             String query = "from Student s where s.surname LIKE :surname AND s.klass.name LIKE :klass";
             Map<String, Object> params = new HashMap<>();
             if(!searchNameField.getText().equals("Фамилия студента")) {
-                params.put("surname", searchNameField.getText());
+                params.put("surname", "%" + searchNameField.getText() + "%");
             } else params.put("surname", "%");
             if(!comboSearchKlass.getSelectedItem().toString().equals("Все")) {
                 params.put("klass", comboSearchKlass.getSelectedItem());
@@ -156,6 +161,7 @@ public class StudentFrame extends EntityFrame<Student> {
             setInput(searchNameField, "Фамилия студента");
             comboSearchKlass.setSelectedIndex(0);
             comboSearchStatus.setSelectedIndex(0);
+            initTable();
         }
     }
 }
