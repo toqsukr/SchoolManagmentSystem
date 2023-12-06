@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -14,7 +17,9 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import application.entities.Klass;
+import application.entities.Progress;
 import application.entities.Student;
+import application.entities.Subject;
 import application.graphic.ui.CheckBoxList;
 import application.graphic.ui.buttons.SaveEntityButton;
 import application.graphic.ui.frames.EditFrame;
@@ -39,6 +44,10 @@ public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<St
 
   private final JLabel klassLabel = new JLabel("Класс:");
 
+  private final List<JTextField> markInputs = new ArrayList<>();
+
+  private final JPanel panel = new JPanel();
+
   private EntityFrame<Student> parentWindow;
 
   public EditStudentFrame(EntityFrame<Student> _parentWindow, Student object) {
@@ -58,9 +67,8 @@ public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<St
       }
     });
 
-    JPanel panel = new JPanel();
     panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-    panel.setLayout(new GridLayout(5, 2, 10, 10));
+    panel.setLayout(new GridLayout(4, 2, 10, 10));
 
     panel.add(nameLabel);
     panel.add(inputNameField);
@@ -71,11 +79,32 @@ public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<St
     panel.add(klassLabel);
     panel.add(klassCheckBox);
 
+    initMarkInputs();
+
     panel.add(saveBtn);
     panel.add(cancelBtn);
     setObjectData();
 
     add(panel);
+  }
+
+  private void initMarkInputs() {
+    List<Subject> subjects = Subject.getEntityDao().getAll();
+    for(Subject subject: subjects) {
+      JLabel label = new JLabel(subject.getName());
+      JTextField input = new JTextField();
+
+      String query = "from Progress p where p.progressID.subject = :subject";
+      Map<String, Object> params = new HashMap<>();
+      params.put("subject", subject);
+      List<Progress> progresses = Progress.getEntityDao().getWithParams(query, params);
+      if(progresses.size() == 0) input.setText("0");
+      else  input.setText(progresses.get(0).getAverageMark().toString()); 
+      
+      markInputs.add(input);
+      panel.add(label);
+      panel.add(input);
+    }
   }
 
   private void setObjectData() {

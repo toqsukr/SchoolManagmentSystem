@@ -16,6 +16,10 @@ public class Progress {
 	@EmbeddedId 
 	private ProgressID progressID;
 
+	public ProgressID getID() {
+		return progressID;
+	}
+
   @Column(name = "averageMark")
 	private Double averageMark;
 
