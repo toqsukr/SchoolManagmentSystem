@@ -1,5 +1,6 @@
 package application.graphic;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -10,9 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
@@ -48,10 +52,15 @@ public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<St
 
   private final JPanel panel = new JPanel();
 
+  private final JPanel markPanel = new JPanel();
+
+  private final JPanel buttonPanel = new JPanel();
+
   private EntityFrame<Student> parentWindow;
 
   public EditStudentFrame(EntityFrame<Student> _parentWindow, Student object) {
     super(_parentWindow, object);
+    setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
     parentWindow = _parentWindow;
 
@@ -67,8 +76,11 @@ public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<St
       }
     });
 
-    panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 0, 20));
     panel.setLayout(new GridLayout(4, 2, 10, 10));
+
+    buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
+    buttonPanel.setLayout(new GridLayout(1, 2, 10, 10));
 
     panel.add(nameLabel);
     panel.add(inputNameField);
@@ -81,29 +93,34 @@ public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<St
 
     initMarkInputs();
 
-    panel.add(saveBtn);
-    panel.add(cancelBtn);
+    buttonPanel.add(saveBtn);
+    buttonPanel.add(cancelBtn);
     setObjectData();
 
     add(panel);
+    add(markPanel);
+    add(buttonPanel);
   }
 
   private void initMarkInputs() {
     List<Subject> subjects = Subject.getEntityDao().getAll();
+    markPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
+    markPanel.setLayout(new GridLayout(subjects.size(), 2, 10, 10));
     for(Subject subject: subjects) {
       JLabel label = new JLabel(subject.getName());
       JTextField input = new JTextField();
 
-      String query = "from Progress p where p.progressID.subject = :subject";
+      String query = "from Progress p where p.progressID.subject = :subject AND p.progressID.student = :student";
       Map<String, Object> params = new HashMap<>();
       params.put("subject", subject);
+      params.put("student", object);
       List<Progress> progresses = Progress.getEntityDao().getWithParams(query, params);
       if(progresses.size() == 0) input.setText("0");
       else  input.setText(progresses.get(0).getAverageMark().toString()); 
       
       markInputs.add(input);
-      panel.add(label);
-      panel.add(input);
+      markPanel.add(label);
+      markPanel.add(input);
     }
   }
 
