@@ -1,6 +1,5 @@
 package application.graphic;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -15,8 +14,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
@@ -30,11 +27,11 @@ import application.graphic.ui.frames.EditFrame;
 import application.graphic.ui.frames.EntityFrame;
 import application.interfaces.IAddFrame;
 
-public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<Student>  {
+public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<Student> {
 
   private final JTextField inputNameField = new JTextField(20);
 
-  private final JTextField inputSurnameField = new JTextField( 20);
+  private final JTextField inputSurnameField = new JTextField(20);
 
   private final CheckBoxList<Klass> klassCheckBox;
 
@@ -66,7 +63,7 @@ public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<St
 
     List<Klass> klasses = Klass.getEntityDao().getAll();
     klassCheckBox = new CheckBoxList<>(klasses, ListSelectionModel.SINGLE_SELECTION);
-  
+
     saveBtn.setBackground(new Color(0xDFD9D9D9, false));
     cancelBtn.setBackground(new Color(0xDFD9D9D9, false));
 
@@ -79,7 +76,7 @@ public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<St
     panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 0, 20));
     panel.setLayout(new GridLayout(4, 2, 10, 10));
 
-    buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
+    buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
     buttonPanel.setLayout(new GridLayout(1, 2, 10, 10));
 
     panel.add(nameLabel);
@@ -106,7 +103,7 @@ public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<St
     List<Subject> subjects = Subject.getEntityDao().getAll();
     markPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
     markPanel.setLayout(new GridLayout(subjects.size(), 2, 10, 10));
-    for(Subject subject: subjects) {
+    for (Subject subject : subjects) {
       JLabel label = new JLabel(subject.getName());
       JTextField input = new JTextField();
 
@@ -115,9 +112,11 @@ public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<St
       params.put("subject", subject);
       params.put("student", object);
       List<Progress> progresses = Progress.getEntityDao().getWithParams(query, params);
-      if(progresses.size() == 0) input.setText("0");
-      else  input.setText(progresses.get(0).getAverageMark().toString()); 
-      
+      if (progresses.size() == 0)
+        input.setText("0");
+      else
+        input.setText(progresses.get(0).getAverageMark().toString());
+
       markInputs.add(input);
       markPanel.add(label);
       markPanel.add(input);
@@ -145,7 +144,13 @@ public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<St
     object.setName(inputNameField.getText());
     object.setSurname(inputSurnameField.getText());
     object.setKlass(Klass.getEntityDao().findObject(klassCheckBox.getSelectedItems().get(0)));
-    
+    List<Progress> progresses = object.getProgress();
+    System.out.println(progresses.size());
+    for (int i = 0; i < markInputs.size(); i++) {
+      progresses.get(i).setAverageMark(Double.parseDouble(markInputs.get(i).getText()));
+      System.out.println(progresses.get(i).getAverageMark());
+      System.out.println(markInputs.get(i).getText());
+    }
     return object;
   }
 }
