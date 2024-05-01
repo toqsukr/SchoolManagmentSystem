@@ -1,16 +1,27 @@
 package application.entities;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import application.database.EntityDao;
 import application.interfaces.IEntityDao;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "student")
-public class Student extends Person implements IEntityDao {	
+public class Student extends Person implements IEntityDao {
 
-	public Student() {};
+	public Student() {
+	};
 
 	public Student(String _name, String _surname, Klass klass) {
 		super(_name, _surname);
@@ -23,9 +34,9 @@ public class Student extends Person implements IEntityDao {
 		return em;
 	}
 
-	@Id 
-	@Column(name = "studentID") 
-	@GeneratedValue(strategy =  GenerationType.IDENTITY)
+	@Id
+	@Column(name = "studentID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer studentID;
 
 	public Integer getStudentID() {
@@ -48,9 +59,9 @@ public class Student extends Person implements IEntityDao {
 	public void setKlass(Klass _klass) {
 		klass = _klass;
 	}
-	
+
 	@OneToMany(mappedBy = "progressID.student", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Progress> progress = new ArrayList<>();
+	private List<Progress> progress = new ArrayList<>();
 
 	public List<Progress> getProgress() {
 		return progress;
@@ -59,8 +70,8 @@ public class Student extends Person implements IEntityDao {
 	public Double getAverageMark() {
 		Double averageMark = 0.0;
 		Integer markCount = 0;
-		for(Progress value: progress) {
-			if(!value.getAverageMark().equals(0.0)) {
+		for (Progress value : progress) {
+			if (!value.getAverageMark().equals(0.0)) {
 				averageMark += value.getAverageMark();
 				markCount++;
 			}
@@ -71,13 +82,13 @@ public class Student extends Person implements IEntityDao {
 	public String determineStudentStatus() {
 		Double averageGrade = getAverageMark();
 		if (averageGrade >= 4.5) {
-				return "Отличник";
+			return "Отличник";
 		} else if (averageGrade >= 4.0 && averageGrade < 4.5) {
-				return "Хорошист";
+			return "Хорошист";
 		} else if (averageGrade >= 3.0 && averageGrade < 4.0) {
-				return "Троечник";
+			return "Троечник";
 		} else {
-				return "Двоечник";
+			return "Двоечник";
 		}
 	}
 }

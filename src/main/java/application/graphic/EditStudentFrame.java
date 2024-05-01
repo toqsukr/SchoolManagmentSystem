@@ -13,6 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -21,11 +22,14 @@ import application.entities.Klass;
 import application.entities.Progress;
 import application.entities.Student;
 import application.entities.Subject;
+import application.exceptions.InvalidAverageMarkException;
+import application.exceptions.InvalidNumberFormatException;
 import application.graphic.ui.CheckBoxList;
 import application.graphic.ui.buttons.SaveEntityButton;
 import application.graphic.ui.frames.EditFrame;
 import application.graphic.ui.frames.EntityFrame;
 import application.interfaces.IAddFrame;
+import application.utils.Checker;
 import application.utils.ListHelper;
 
 public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<Student> {
@@ -143,34 +147,47 @@ public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<St
   }
 
   public Student getObjectToAdd() {
-    object.setName(inputNameField.getText());
-    object.setSurname(inputSurnameField.getText());
-    object.setKlass(Klass.getEntityDao().findObject(klassCheckBox.getSelectedItems().get(0)));
-    List<Progress> progresses = object.getProgress();
-    List<Subject> subjects = Subject.getEntityDao().getAll();
+    try {
+      object.setName(inputNameField.getText());
+      object.setSurname(inputSurnameField.getText());
+      object.setKlass(Klass.getEntityDao().findObject(klassCheckBox.getSelectedItems().get(0)));
+      List<Progress> progresses = object.getProgress();
+      List<Subject> subjects = Subject.getEntityDao().getAll();
 
-    List<Subject> progressSubjects = object.getProgress().stream()
-        .map((Progress progress) -> progress.getID().getSubject()).toList();
+      List<Subject> progressSubjects = object.getProgress().stream()
+          .map((Progress progress) -> progress.getID().getSubject()).toList();
 
-    for (int i = 0; i < subjects.size(); i++) {
-      Double newMark = Double.parseDouble(markInputs.get(i).getText());
-      if (newMark != 0) {
-        if (progressSubjects.size() > 0 && ListHelper.isAtList(progressSubjects, subjects.get(i))) {
-          final int index = i;
-          progresses.forEach((Progress progress) -> {
-            if (progress.getID().getSubject().getName().equals(subjects.get(index).getName())) {
-              progress.setAverageMark(newMark);
-              Progress.getEntityDao().updateObject(progress);
-            }
-          });
-        } else {
-          Progress studentProgress = new Progress(subjects.get(i), object);
-          studentProgress.setAverageMark(newMark);
-          Progress.getEntityDao().saveObject(studentProgress);
-          object.getProgress().add(studentProgress);
+      for (int i = 0; i < subjects.size(); i++) {
+        String inputValue = markInputs.get(i).getText();
+        Checker.isCorrectNumber(inputValue);
+        Checker.isCorrectMark(inputValue);
+        Double newMark = Double.parseDouble(inputValue);
+        if (newMark != 0) {
+          if (progressSubjects.size() > 0 && ListHelper.isAtList(progressSubjects, subjects.get(i))) {
+            final int index = i;
+            progresses.forEach((Progress progress) -> {
+              if (progress.getID().getSubject().getName().equals(subjects.get(index).getName())) {
+                progress.setAverageMark(newMark);
+                Progress.getEntityDao().updateObject(progress);
+              }
+            });
+          } else {
+            Progress studentProgress = new Progress(subjects.get(i), object);
+            studentProgress.setAverageMark(newMark);
+            Progress.getEntityDao().saveObject(studentProgress);
+            object.getProgress().add(studentProgress);
+          }
+          ;
         }
-        ;
       }
+    } catch (InvalidAverageMarkException error) {
+      JOptionPane.showMessageDialog(parentWindow, error.getMessage(), "Ошибка редактирования",
+          JOptionPane.PLAIN_MESSAGE);
+
+    } catch (InvalidNumberFormatException error) {
+      JOptionPane.showMessageDialog(parentWindow, error.getMessage(), "Ошибка редактирования",
+          JOptionPane.PLAIN_MESSAGE);
+
     }
     return object;
   }
