@@ -26,7 +26,7 @@ import application.utils.ListHelper;
 public class EditTeacherFrame extends EditFrame<Teacher> implements IAddFrame<Teacher> {
   private final JTextField inputNameField = new JTextField(20);
 
-  private final JTextField inputSurnameField = new JTextField( 20);
+  private final JTextField inputSurnameField = new JTextField(20);
 
   private final CheckBoxList<Subject> subjectCheckBox;
 
@@ -56,7 +56,7 @@ public class EditTeacherFrame extends EditFrame<Teacher> implements IAddFrame<Te
 
     List<Klass> klasses = Klass.getEntityDao().getAll();
     klassCheckBox = new CheckBoxList<>(klasses, ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-  
+
     subjectCheckBox.setBackground(new Color(0xFFFFFF, false));
     subjectCheckBox.setFocusable(false);
     saveBtn.setBackground(new Color(0xDFD9D9D9, false));
@@ -111,24 +111,28 @@ public class EditTeacherFrame extends EditFrame<Teacher> implements IAddFrame<Te
   }
 
   private void updateSubjects() {
-    List<String> selectedList = subjectCheckBox.getSelectedItems();
+    List<Subject> selectedSubjects = subjectCheckBox.getSelectedItems().stream()
+        .map((String subjectName) -> Subject.getEntityDao().findObject(subjectName)).toList();
+
     List<Subject> allSubjects = Subject.getEntityDao().getAll();
-    for(Subject subject: allSubjects) {
-      if(ListHelper.isAtList(selectedList, subject) && !object.isAtSubjects(subject)) {
+    for (Subject subject : allSubjects) {
+      if (ListHelper.isAtList(selectedSubjects, subject) && !object.isAtSubjects(subject)) {
         object.appendSubject(subject);
-      } else if(!ListHelper.isAtList(selectedList, subject) && object.isAtSubjects(subject)) {
+      } else if (!ListHelper.isAtList(selectedSubjects, subject) && object.isAtSubjects(subject)) {
         object.deleteSubject(subject);
       }
     }
   }
 
   private void updateKlasses() {
-    List<String> selectedList = klassCheckBox.getSelectedItems();
+    List<Klass> selectedKlasses = klassCheckBox.getSelectedItems().stream()
+        .map((String klassName) -> Klass.getEntityDao().findObject(klassName)).toList();
+
     List<Klass> allKlass = Klass.getEntityDao().getAll();
-    for(Klass klass: allKlass) {
-      if(ListHelper.isAtList(selectedList, klass) && !object.isAtKlasses(klass)) {
+    for (Klass klass : allKlass) {
+      if (ListHelper.isAtList(selectedKlasses, klass) && !object.isAtKlasses(klass)) {
         object.appendKlass(klass);
-      } else if(!ListHelper.isAtList(selectedList, klass) && object.isAtKlasses(klass)) {
+      } else if (!ListHelper.isAtList(selectedKlasses, klass) && object.isAtKlasses(klass)) {
         object.deleteKlass(klass);
       }
     }
@@ -139,7 +143,7 @@ public class EditTeacherFrame extends EditFrame<Teacher> implements IAddFrame<Te
     object.setSurname(inputSurnameField.getText());
     updateSubjects();
     updateKlasses();
-    
+
     return object;
   }
 }

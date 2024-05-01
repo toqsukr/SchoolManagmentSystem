@@ -26,6 +26,7 @@ import application.graphic.ui.buttons.SaveEntityButton;
 import application.graphic.ui.frames.EditFrame;
 import application.graphic.ui.frames.EntityFrame;
 import application.interfaces.IAddFrame;
+import application.utils.ListHelper;
 
 public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<Student> {
 
@@ -114,8 +115,9 @@ public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<St
       List<Progress> progresses = Progress.getEntityDao().getWithParams(query, params);
       if (progresses.size() == 0)
         input.setText("0");
-      else
+      else {
         input.setText(progresses.get(0).getAverageMark().toString());
+      }
 
       markInputs.add(input);
       markPanel.add(label);
@@ -145,11 +147,30 @@ public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<St
     object.setSurname(inputSurnameField.getText());
     object.setKlass(Klass.getEntityDao().findObject(klassCheckBox.getSelectedItems().get(0)));
     List<Progress> progresses = object.getProgress();
-    System.out.println(progresses.size());
-    for (int i = 0; i < markInputs.size(); i++) {
-      progresses.get(i).setAverageMark(Double.parseDouble(markInputs.get(i).getText()));
-      System.out.println(progresses.get(i).getAverageMark());
-      System.out.println(markInputs.get(i).getText());
+    List<Subject> subjects = Subject.getEntityDao().getAll();
+
+    List<Subject> progressSubjects = object.getProgress().stream()
+        .map((Progress progress) -> progress.getID().getSubject()).toList();
+
+    for (int i = 0; i < subjects.size(); i++) {
+      Double newMark = Double.parseDouble(markInputs.get(i).getText());
+      if (newMark != 0) {
+        if (progressSubjects.size() > 0 && ListHelper.isAtList(progressSubjects, subjects.get(i))) {
+          final int index = i;
+          progresses.forEach((Progress progress) -> {
+            if (progress.getID().getSubject().getName().equals(subjects.get(index).getName())) {
+              progress.setAverageMark(newMark);
+              Progress.getEntityDao().updateObject(progress);
+            }
+          });
+        } else {
+          Progress studentProgress = new Progress(subjects.get(i), object);
+          studentProgress.setAverageMark(newMark);
+          Progress.getEntityDao().saveObject(studentProgress);
+          object.getProgress().add(studentProgress);
+        }
+        ;
+      }
     }
     return object;
   }
