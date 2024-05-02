@@ -18,7 +18,8 @@ public class Checker {
             throw new InvalidNumberFormatException();
     }
 
-    public static void isCorrectMark(String mark) throws InvalidAverageMarkException {
+    public static void isCorrectMark(String value) throws InvalidAverageMarkException {
+        String mark = value.trim();
         if ((Double.parseDouble(mark) < 1 && Double.parseDouble(mark) > 0)
                 || Double.parseDouble(mark) > 5) {
             throw new InvalidAverageMarkException();

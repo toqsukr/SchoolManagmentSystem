@@ -22,8 +22,6 @@ import application.entities.Klass;
 import application.entities.Progress;
 import application.entities.Student;
 import application.entities.Subject;
-import application.exceptions.InvalidAverageMarkException;
-import application.exceptions.InvalidNumberFormatException;
 import application.graphic.ui.CheckBoxList;
 import application.graphic.ui.buttons.SaveEntityButton;
 import application.graphic.ui.frames.EditFrame;
@@ -154,40 +152,35 @@ public class EditStudentFrame extends EditFrame<Student> implements IAddFrame<St
       List<Progress> progresses = object.getProgress();
       List<Subject> subjects = Subject.getEntityDao().getAll();
 
+      for (JTextField input : markInputs) {
+        Checker.isCorrectNumber(input.getText());
+        Checker.isCorrectMark(input.getText());
+      }
+
       List<Subject> progressSubjects = object.getProgress().stream()
           .map((Progress progress) -> progress.getID().getSubject()).toList();
 
       for (int i = 0; i < subjects.size(); i++) {
-        String inputValue = markInputs.get(i).getText();
-        Checker.isCorrectNumber(inputValue);
-        Checker.isCorrectMark(inputValue);
-        Double newMark = Double.parseDouble(inputValue);
-        if (newMark != 0) {
-          if (progressSubjects.size() > 0 && ListHelper.isAtList(progressSubjects, subjects.get(i))) {
-            final int index = i;
-            progresses.forEach((Progress progress) -> {
-              if (progress.getID().getSubject().getName().equals(subjects.get(index).getName())) {
-                progress.setAverageMark(newMark);
-                Progress.getEntityDao().updateObject(progress);
-              }
-            });
-          } else {
-            Progress studentProgress = new Progress(subjects.get(i), object);
-            studentProgress.setAverageMark(newMark);
-            Progress.getEntityDao().saveObject(studentProgress);
-            object.getProgress().add(studentProgress);
-          }
-          ;
+        Double newMark = Double.parseDouble(markInputs.get(i).getText());
+        if (progressSubjects.size() > 0 && ListHelper.isAtList(progressSubjects, subjects.get(i))) {
+          final int index = i;
+          progresses.forEach((Progress progress) -> {
+            if (progress.getID().getSubject().getName().equals(subjects.get(index).getName())) {
+              progress.setAverageMark(newMark);
+              Progress.getEntityDao().updateObject(progress);
+            }
+          });
+        } else {
+          Progress studentProgress = new Progress(subjects.get(i), object);
+          studentProgress.setAverageMark(newMark);
+          Progress.getEntityDao().saveObject(studentProgress);
+          object.getProgress().add(studentProgress);
         }
+        ;
       }
-    } catch (InvalidAverageMarkException error) {
+    } catch (Exception error) {
       JOptionPane.showMessageDialog(parentWindow, error.getMessage(), "Ошибка редактирования",
           JOptionPane.PLAIN_MESSAGE);
-
-    } catch (InvalidNumberFormatException error) {
-      JOptionPane.showMessageDialog(parentWindow, error.getMessage(), "Ошибка редактирования",
-          JOptionPane.PLAIN_MESSAGE);
-
     }
     return object;
   }

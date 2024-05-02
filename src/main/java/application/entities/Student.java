@@ -87,8 +87,9 @@ public class Student extends Person implements IEntityDao {
 			return "Хорошист";
 		} else if (averageGrade >= 3.0 && averageGrade < 4.0) {
 			return "Троечник";
-		} else {
+		} else if (averageGrade >= 1.0 && averageGrade < 3.0) {
 			return "Двоечник";
-		}
+		} else
+			return "Нет данных";
 	}
 }
